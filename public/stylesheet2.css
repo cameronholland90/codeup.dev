@@ -1,0 +1,49 @@
+.top {
+    width: 100%;
+    height: 5%;
+}
+
+.left {
+    width: 20%;
+    height: 100%;
+    float:left;
+}
+
+.main {
+	padding-left: 20%;
+    float: left;
+    height: 100%;
+    width: 20%;
+}
+
+#profile {
+	padding-left: 35%;
+}
+
+#bacon{
+	font-size: 30px;
+	color: red;
+}
+
+img{
+	max-width: 300px;
+}
+
+html{
+	height: 1000px;
+	width: 1000px;
+}
+
+body{
+	background-image:url('/img/background.jpg');
+	background-repeat: no-repeat;
+	background-attachment:fixed;
+	background-size: 100%;
+}
+
+h1{
+	color: black;
+	font-family: cursive;
+	text-shadow: 0 1px 1px yellow;
+	text-align: center;
+}
