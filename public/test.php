@@ -123,15 +123,32 @@ var_dump($_POST);
 		<label for="q5d">
 			<input type="radio" id="q5d" name="q5" value="24 miles an hour">24 miles an hour
 		</label>
+
+		<br>
+		
+	    <label for="os">What operating systems have you used? </label>
+		<select id="os" name="os[]" multiple>
+		    <option value="linus">Linux</option>
+		    <option value="osx">OS X</option>
+		    <option value="windows">Windows</option>
+		</select>
+
 		<p>
 	        <button type="submit">Submit Answers</button>
 	    </p>
 
-	    <p>What operating systems have you used?</p>
-		<label for="os1"><input type="checkbox" id="os1" name="os[]" value="linux"> Linux</label>
-		<label for="os2"><input type="checkbox" id="os2" name="os[]" value="osx"> OS X</label>
-		<label for="os3"><input type="checkbox" id="os3" name="os[]" value="windows"> Windows</label>
+	</form>
 
+	<form method="POST" action="">
+	<label for="seenmontypython">Have you seen Monty Python? </label>
+		<select id="seenmontypython" name="seenmontypython">
+		    <option value="1">Yes</option>
+		    <option value="0">No</option>
+		</select>
+
+		<p>
+	        <button type="submit">Submit</button>
+	    </p>
 	</form>
 </body>
 </html>
