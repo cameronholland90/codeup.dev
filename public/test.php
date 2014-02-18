@@ -1,10 +1,20 @@
+<?php
+
+echo "<p>GET:</p>";
+var_dump($_GET);
+
+echo "<p>PUSH:</p>";
+var_dump($_POST);
+
+?>
+
 <html>
 <link rel="stylesheet" type="text/css" href="stylesheet3.css" />
 <head>
 	<title>My First Form</title>
 </head>
 <body>
-	<form method="POST" action="http://requestb.in/pjwzrgpj">
+	<form method="POST" action="">
 	    <p>
 	        <label for="username">Username</label>
 	        <input id="username" name="username" type="text" placeholder="Enter your username">
@@ -17,7 +27,7 @@
 	        <button type="submit">LOGIN</button>
 	    </p>
 	</form>
-	<form method="POST" action="http://requestb.in/pjwzrgpj">
+	<form method="POST" action="">
 		<p>
 			<label for="to">To</label>
 	        <input id="to" name="to" type="text" placeholder="Send To">
@@ -43,7 +53,7 @@
 	</form>
 	<h2>Mulitple Choice Test</h2>
 	<h3>Stop. Who would cross the Bridge of Death must answer me these questions three, ere the other side he see.</h3>
-	<form method="POST" action="http://requestb.in/pjwzrgpj">
+	<form method="POST" action="">
 		<p>What is you name?</p>
 		<label for="q1a">
 			<input type="radio" id="q1a" name="q1" value="Lancelot">Lancelot
