@@ -4,5 +4,5 @@ input, textarea {
  
 input:focus, textarea:focus {
   box-shadow: 0 0 5px green;
-  border: 2px inset green;
+  border: 2px inset #66CC66;
 }

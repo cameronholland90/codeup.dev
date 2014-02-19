@@ -124,9 +124,14 @@ var_dump($_POST);
 			<input type="radio" id="q5d" name="q5" value="24 miles an hour">24 miles an hour
 		</label>
 
+	    <p>What operating systems have you used?</p>
+		<label for="os1"><input type="checkbox" id="os1" name="os[]" value="linux"> Linux</label>
+		<label for="os2"><input type="checkbox" id="os2" name="os[]" value="osx"> OS X</label>
+		<label for="os3"><input type="checkbox" id="os3" name="os[]" value="windows"> Windows</label>
+
 		<br>
-		
-	    <label for="os">What operating systems have you used? </label>
+
+		<label for="os">What operating systems have you used? </label>
 		<select id="os" name="os[]" multiple>
 		    <option value="linus">Linux</option>
 		    <option value="osx">OS X</option>
