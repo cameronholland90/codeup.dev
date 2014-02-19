@@ -1,0 +1,42 @@
+<html>
+<head>
+	<title>switch-statement-js.html</title>
+</head>
+<body>
+	<script>
+		// ignore these lines for now
+		// just know that the variable 'color' will end up with a random value from the colors array
+		var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet', 'black'];
+		var color = colors[Math.floor(Math.random()*colors.length)];
+
+		switch (color) {
+			// todo: create a case statement that will handle every color except indigo and violet
+		    // todo: when a color is encountered log a message that tells the color, and an object of that color
+		    //       example: Blue is the color of the sky.
+			case 'red':
+				console.log("Red is the color of a rose.");
+				break;
+			case 'orange':
+				console.log("Orange is the color of an orange.");
+				break;
+			case 'yellow':
+				console.log("Yellow is the color of the sun.");
+				break;
+			case 'green':
+				console.log("Green is the color of grass.");
+				break;
+			case 'blue':
+				console.log("Blue is the color of the sky.");
+				break;
+			case 'black':
+				console.log("Black is the color of a sharpie.");
+				break;
+
+		    // todo: create a default case that will catch indigo and violet
+		    // todo: for the default case, log: I don't know anything by that color.
+		    default:
+				console.log("I don't know anything by that color.");
+		}
+	</script>
+</body>
+</html>
