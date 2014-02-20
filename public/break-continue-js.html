@@ -4,26 +4,24 @@
 </head>
 <body>
 	<script>
-		var num = 1;
-		var randNum = Math.floor((Math.random() * 50) + 1);
-		do {
-			if (randNum % 2 != 1) {
-				randNum = Math.floor((Math.random() * 50) + 1);
+		var randNum = 0;
+		while (randNum % 2 != 1) {
+			randNum = Math.floor((Math.random() * 50) + 1);
+		}
+		console.log("Random odd number to skip is: " + randNum);
+		for (var i = 0; i < 50; i++) {
+			if (i % 2 == 1) {
 				continue;
 			}
-			else if ((randNum % 2 == 1) && num == 1) {
-				console.log("Random odd number to skip is: " + randNum);
-			}
-
-			if (num == randNum) {
-				console.log("Yipes! Skipping number: " + num);
+			else if (i == randNum) {
+				console.log("Yipes! Skipping number: " + i);
 			}
 			else {
-				console.log("Here is an odd number: " + num);
+				console.log("Here is an odd number: " + i);
 			}
-			num += 2;
-		} while(num <= 50)
-		
+		}
+
+
 	</script>
 </body>
 </html>
