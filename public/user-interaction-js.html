@@ -7,6 +7,9 @@
 		// todo: Ask the user for their name.
 		//       Keep asking if an empty input is provided.
 		var response = prompt('What is your name?');
+		while(response == 'null' || response === '') {
+			response = prompt('What is your name?');
+		}
 
 		// todo: Show an alert message that welcomes the user based on their input.
 		alert('Welcome ' + response + '!');
