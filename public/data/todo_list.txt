@@ -1,0 +1,4 @@
+Add more styling to webpages
+Incorporate JavaScript on todo list app
+Think of new side projects
+Add info to codeup.dev page
