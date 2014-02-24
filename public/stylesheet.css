@@ -1,12 +1,7 @@
-body{
-	background-color: white;
-}
-
-h1{
-	text-align: center;
-	color: green;
-	font-family: cursive;
-	text-shadow: 0 1px 1px yellow;
+#profile {
+	display: block;
+	margin: auto;
+	max-width: 300px;
 }
 
 #about{
@@ -15,7 +10,33 @@ h1{
 	font-family: fantasy;
 }
 
+.social{
+	max-width: 50px;
+}
 
+body{
+	background-image:url('/img/background3.jpg');
+	background-repeat: no-repeat;
+	background-attachment:fixed;
+	background-size: 100%;
+}
+
+h2{
+	text-align: center;
+	color: black;
+	font-family: cursive;
+	text-shadow: 0 1px 1px red;
+}
+
+footer{
+	text-align: center;
+	margin: 0 auto;
+	clear: both;
+    position: relative;
+    z-index: 10;
+    height: 3em;
+    float: bottom;
+}
 
 img{
 	max-width: 300px;
