@@ -1,5 +1,54 @@
+<?php
+	$filename = "data/todo_list.txt";
+
+	function openFile($filename) {
+		$handle = fopen($filename, "r");
+		$filesize = filesize($filename);
+		if($filesize != 0) {
+			$openList = fread($handle, $filesize);
+			$openList = explode("\n", $openList);
+		} elseif (empty($_POST)) {
+			$openList = array();
+		} 
+		fclose($handle);
+		return $openList;
+	}
+
+	function saveFile($todolist, $filename) {
+		$handle = fopen($filename, "w");
+		$saveList = implode("\n", $todolist);
+		fwrite($handle, $saveList);
+		fclose($handle);
+	}
+	
+	$todolist = openFile($filename);
+
+	if (!empty($_POST['todoitem']) ) {
+		$todolist[] = $_POST['todoitem'];
+		$_POST = array();
+	}
+
+	if (isset($_GET['complete']) && is_numeric($_GET['complete'])) {
+		$remove = $_GET['complete'];
+		unset($todolist[$remove]);
+		$_GET = array();
+		header("Location: todo-list.php");
+	}
+
+	saveFile($todolist, $filename);	
+?>
+
 <!DOCTYPE html>
 <html>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
 <head>
 	<link rel="shortcut icon" href="img/Arches v2-6.jpg" />
@@ -15,34 +64,9 @@
 		<a href="todo-list.php">My Todo List</a>
 		<hr />
 	</div>
-	<?php
-		$filename = "data/todo_list.txt";
-		$handle = fopen($filename, "r");
-		$filesize = filesize($filename);
-		if($filesize != 0) {
-			$todolist = fread($handle, $filesize);
-			$todolist = explode("\n", $todolist);
-		} elseif (empty($_POST)) {
-			echo "You have nothing todo";
-			$todolist = array();
-		} 
-		fclose($handle);
-
-		if (!empty($_POST) && $_POST['todoitem'] != '') {
-			$todolist[] = $_POST['todoitem'];
-		}
-
-		if (isset($_GET['complete']) && is_numeric($_GET['complete'])) {
-			$remove = $_GET['complete'];
-			unset($todolist[$remove]);
-			$_GET = array();
-			header("Location: todo-list.php");
-		}
-	?>
-	<h3>THUMBS UP LETS DO THIS!</h3>
+	<h3 id="leeroy">THUMBS UP LETS DO THIS!</h3>
 	<ul>
 	<?php
-		//$todolist = array("Take out the trash", "Walk the dog", "BUY MORE BACON!");
 		foreach ($todolist as $key => $item) {
 			echo "<li>$item <a href='/todo-list.php?complete=$key'>Mark Complete</a></li>";
 		} 
@@ -53,17 +77,11 @@
 		<h3>Add a new todo item:</h3>
 		<p>
 	        <label for="todoitem">What do you need todo?</label>
-	        <input id="todoitem" name="todoitem" type="text" placeholder="ADD HERE">
+	        <input id="todoitem" name="todoitem" type="text" autofocus = "autofocus" placeholder="ADD HERE">
 	    </p>
 	    <p>
 	        <button type="submit">Add</button>
 	    </p>
 	</form>
-	<?php
-		$handle = fopen($filename, "w");
-		$todolist = implode("\n", $todolist);
-		fwrite($handle, $todolist);
-		fclose($handle);
-	?>
 </body>
 </html>
