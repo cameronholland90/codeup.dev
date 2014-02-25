@@ -26,17 +26,33 @@
 	if (!empty($_POST['todoitem']) ) {
 		$todolist[] = $_POST['todoitem'];
 		$_POST = array();
+		saveFile($todolist, $filename);
 	}
 
 	if (isset($_GET['complete']) && is_numeric($_GET['complete'])) {
 		$remove = $_GET['complete'];
 		unset($todolist[$remove]);
 		$_GET = array();
+		saveFile($todolist, $filename);
 		header("Location: todo-list.php");
 		exit(0);
 	}
 
-	saveFile($todolist, $filename);	
+	if (count($_FILES) > 0 && $_FILES['uploaded_file']['error'] == 0 && $_FILES['uploaded_file']['type'] == 'text/plain') {
+	    // Set the destination directory for uploads
+	    $upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
+	    // Grab the filename from the uploaded file by using basename
+	    $tempfilename = basename($_FILES['uploaded_file']['name']);
+	    // Create the saved filename using the file's original name and our upload directory
+	    $saved_filename = $upload_dir . $tempfilename;
+	    // Move the file from the temp location to our uploads directory
+	    move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $saved_filename);
+	    $appendList = openFile($saved_filename);
+	    $todolist = array_merge($todolist, $appendList);
+	    saveFile($todolist, $filename);
+	}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -76,11 +92,20 @@
 	?>
 	</ul>
 	
-	<form method="POST" action="">
+	<form method="POST" enctype="multipart/form-data" action="">
 		<h3>Add a new todo item:</h3>
 		<p>
 	        <label for="todoitem">What do you need todo?</label>
 	        <input id="todoitem" name="todoitem" type="text" autofocus = "autofocus" placeholder="ADD HERE">
+	    </p>
+	    <?php
+	    	if (count($_FILES) > 0 && $_FILES['uploaded_file']['error'] == 0 && $_FILES['uploaded_file']['type'] != 'text/plain') {
+	    		echo "<p style=\"color: red\";>Please upload plain text files only.</p>";
+	    	}
+	    ?>
+	    <p>
+	        <label for="uploaded_file">What file would you like to upload?</label>
+	        <input id="uploaded_file" name="uploaded_file" type="file">
 	    </p>
 	    <p>
 	        <button type="submit">Add</button>
