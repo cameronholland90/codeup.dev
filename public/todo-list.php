@@ -33,6 +33,7 @@
 		unset($todolist[$remove]);
 		$_GET = array();
 		header("Location: todo-list.php");
+		exit(0);
 	}
 
 	saveFile($todolist, $filename);	

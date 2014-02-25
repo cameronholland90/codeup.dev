@@ -4,4 +4,3 @@ Think of new side projects
 Add info to codeup.dev page
 Connect Four
 Make php games into web games
-item
