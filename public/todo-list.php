@@ -1,5 +1,6 @@
 <?php
 	$filename = "data/todo_list.txt";
+	$archiveFilename = "data/archived-list.txt";
 
 	function openFile($filename) {
 		$handle = fopen($filename, "r");
@@ -31,7 +32,10 @@
 
 	if (isset($_GET['complete']) && is_numeric($_GET['complete'])) {
 		$remove = $_GET['complete'];
+		$archiveItems = openFile($archiveFilename);
+		$archiveItems[]  = $todolist[$remove]; 
 		unset($todolist[$remove]);
+		saveFile($archiveItems, $archiveFilename);
 		$_GET = array();
 		saveFile($todolist, $filename);
 		header("Location: todo-list.php");
@@ -48,8 +52,13 @@
 	    // Move the file from the temp location to our uploads directory
 	    move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $saved_filename);
 	    $appendList = openFile($saved_filename);
-	    $todolist = array_merge($todolist, $appendList);
-	    saveFile($todolist, $filename);
+	    if ($_POST['overwrite'] == "yes") {
+	    	$todolist = $appendList;
+	    	saveFile($appendList, $filename);
+	    } else {
+	    	$todolist = array_merge($todolist, $appendList);
+	    	saveFile($todolist, $filename);
+	    }
 	}
 
 
@@ -80,16 +89,15 @@
 		<hr />
 		<a href="/">Codeup.dev</a> |
 		<a href="hello-world.html">My Profile Page</a> |
-		<a href="todo-list.php">My Todo List</a>
+		<a href="todo-list.php">My Todo List</a> | 
+		<a href="address_book.php">Address Book</a>
 		<hr />
 	</div>
 	<h3 id="leeroy">THUMBS UP LETS DO THIS!</h3>
 	<ul>
-	<?php
-		foreach ($todolist as $key => $item) {
-			echo "<li>$item <a href='/todo-list.php?complete=$key'>Mark Complete</a></li>";
-		} 
-	?>
+	<?php foreach ($todolist as $key => $item) : ?>
+			<li><?= htmlspecialchars(strip_tags($item)) . " | <a href='/todo-list.php?complete=$key'>Mark Complete</a>"; ?></li>
+	<? endforeach; ?>
 	</ul>
 	
 	<form method="POST" enctype="multipart/form-data" action="">
@@ -98,6 +106,7 @@
 	        <label for="todoitem">What do you need todo?</label>
 	        <input id="todoitem" name="todoitem" type="text" autofocus = "autofocus" placeholder="ADD HERE">
 	    </p>
+	    <h3>Upload File</h3>
 	    <?php
 	    	if (count($_FILES) > 0 && $_FILES['uploaded_file']['error'] == 0 && $_FILES['uploaded_file']['type'] != 'text/plain') {
 	    		echo "<p style=\"color: red\";>Please upload plain text files only.</p>";
@@ -107,6 +116,11 @@
 	        <label for="uploaded_file">What file would you like to upload?</label>
 	        <input id="uploaded_file" name="uploaded_file" type="file">
 	    </p>
+	    <p>
+		    <label for="overwrite">
+			    <input type="checkbox" id="overwrite" name="overwrite" value="yes"> Check if you would like to save over old todo list
+			</label>
+		</p>
 	    <p>
 	        <button type="submit">Add</button>
 	    </p>

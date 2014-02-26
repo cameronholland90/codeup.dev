@@ -1,3 +1,60 @@
+<?php
+	$filename = "data/address_book.csv";
+	$errorMessage = "";
+
+	function openFile($filename) {
+		$handle = fopen($filename, "r");
+		$filesize = filesize($filename);
+		$openList = [];
+		if($filesize != 0) {
+			while(!feof($handle)) {
+				$openList[] = fgetcsv($handle);
+			}
+		} else {
+			$openList = array();
+		} 
+		fclose($handle);
+		return $openList;
+	}
+
+	function saveFile($addressBook, $filename) {
+		$handle = fopen($filename, 'w');
+		foreach ($addressBook as $fields) {
+			if ($fields != "") {
+				fputcsv($handle, $fields);
+			}
+		}
+		fclose($handle);
+	}
+
+	function addItem($addressBook, &$errorMessage) {
+		$temp = $_POST;
+		if ($temp['name'] == '' || $temp['address'] == '' || $temp['city'] == '' || $temp['state'] == '' || $temp['zip'] == '') {
+			$errorMessage = "Please enter required information";
+		} else {
+			$addressBook[] = $temp;
+			$errorMessage = "";
+		}
+		return $addressBook;
+	}
+
+	$addressBook = openFile($filename);
+
+	if (!empty($_POST) ) {
+		$addressBook = addItem($addressBook, $errorMessage);
+	}
+
+	if (isset($_GET['remove']) && is_numeric($_GET['remove'])) {
+		$remove = $_GET['remove'];	
+		unset($addressBook[$remove]);
+		saveFile($addressBook, $filename);
+		$_GET = array();
+		header("Location: address_book.php");
+		exit(0);
+	}
+
+	saveFile($addressBook, $filename)
+?>
 <!DOCTYPE html>
 <html>
 <!-- Latest compiled and minified CSS -->
@@ -11,9 +68,8 @@
 
 <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
 	<head>
-		<meta charset = "utf-8" />
 		<link rel="shortcut icon" href="img/Arches v2-6.jpg" />
-		<title>Cameron's Profile Page</title>
+		<title>Address Book</title>
 	</head>
 	<body>
 		<div style="text-align:center;margin:50px;">
@@ -28,131 +84,48 @@
 			<a href="address_book.php">Address Book</a>
 			<hr />
 		</div>
-		<h2 class = "top">CAMERON HOLLAND</h2>
-		<img id = "profile" src="img/Arches v2-6.jpg"/>
-		<div id = "left">
-			make this a side bar
-		</div>
-			<div id = "main">
-			<a id="top"></a>
-			<h2>Hello from Codeup!</h2>
-			<p id="about">My name is <strong>Cameron Holland</strong>. I used to work at a <em>collectable</em> coin shop. <br>I play basketball whenever I get a chance to.</p>
-			<h3>My Favorite Quote</h3>
-			<blockquote>As a child my family's menu consisted of two choices: take it or leave it.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Buddy Hackett</blockquote>
-			<h3>I'm Learning the LAMP Stack</h3>
-			<ul>
-				<li>Linux</li>
-				<li>Apache HTTP Server</li>
-				<li>MySQL</li>
-				<li>PHP</li>
-			</ul>
-			<h3>My Top 5 Favorite Foods</h3>
-			<ol>
-				<li><strong id="bacon">BACON</strong></li>
-				<li>Pan Fried Potstickers</li>
-				<li>Turkey Schnitzel</li>
-				<li>Kung Pao Chicken</li>
-				<li><strong id="bacon">MORE BACON</strong></li>
-			</ol>
-			<h3>Questions I'm Often Asked</h3>
-			<dl>
-				<dt>How long have you been growing your beard?</dt>
-				<dd>Since September 2013</dd>
-				<dt>What is your favorite movie?</dt>
-				<dd>Goonies</dd>
-			</dl>
-			<h3>My Favorite Websites</h3>
-			<ul>
-				<li><a href="http://www.codeup.com">Codeup</a></li>
-				<li><a href="http://www.miniclip.com">Miniclip</a></li>
-				<li><a href="http://www.cad-comic.com/">Ctrl+Alt+Del</a></li>
-				<li><a href="http://www.amazon.com">Amazon</a></li>
-				<li><a href="http://www.cigarsinternational.com">Cigar's International</a></li>
-			</ul>
-			<h3>My Vehicle</h3>
-			<p>I own a Mazda 3</p>
-			<img src="/img/mazda3.jpg"/>
-			<h3>My Dream Car</h3>
-			<p>'67 Mustang</p>
-			<img src="/img/67_Mustang.jpg"/><br>
-			<h3>Decimal to Hexadecimal Conversion Chart</h3>
-			<table id = "convert">
+		<table>
+			<? foreach ($addressBook as $key => $address) : ?>
 				<tr>
-					<th>Decimal</th>
-					<th>Hexadecimal</th>
+					<? if ($address != '') : ?>
+						<? foreach ($address as $item) : ?>
+							<td><?= htmlspecialchars(strip_tags($item)) ?></td>
+						<? endforeach; ?>
+						<td><?= " | <a href='/address_book.php?remove=$key'>Mark Complete</a>"; ?></td>
+					<? endif; ?>
 				</tr>
-				<tr>
-					<td>0</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>1</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>2</td>
-				</tr>
-				<tr>
-					<td>3</td>
-					<td>3</td>
-				</tr>
-				<tr>
-					<td>4</td>
-					<td>4</td>
-				</tr>
-				<tr>
-					<td>5</td>
-					<td>5</td>
-				</tr>
-				<tr>
-					<td>6</td>
-					<td>6</td>
-				</tr>
-				<tr>
-					<td>7</td>
-					<td>7</td>
-				</tr>
-				<tr>
-					<td>8</td>
-					<td>8</td>
-				</tr>
-				<tr>
-					<td>9</td>
-					<td>9</td>
-				</tr>
-				<tr>
-					<td>10</td>
-					<td>A</td>
-				</tr>
-				<tr>
-					<td>11</td>
-					<td>B</td>
-				</tr>
-				<tr>
-					<td>12</td>
-					<td>C</td>
-				</tr>
-				<tr>
-					<td>13</td>
-					<td>D</td>
-				</tr>
-				<tr>
-					<td>14</td>
-					<td>E</td>
-				</tr>
-				<tr>
-					<td>15</td>
-					<td>F</td>
-				</tr>
-			</table>
-			<a href="#top">Go to the top of the page</a>
-		</div>
+			<? endforeach; ?>
+		</table>
+		<form method = "POST" action = "">
+			<h3>Add a new address:</h3>
+			<p><?= $errorMessage; ?></p>
+			<p>
+		        <label for="name">Name: </label>
+		        <input id="name" name="name" type="text" autofocus = "autofocus" placeholder="Name">
+		    </p>
+		    <p>
+		        <label for="address">Address: </label>
+		        <input id="address" name="address" type="text" placeholder="Address">
+		    </p>
+		    <p>
+		        <label for="city">City: </label>
+		        <input id="city" name="city" type="text" placeholder="City">
+		    </p>
+		    <p>
+		        <label for="state">State: </label>
+		        <input id="state" name="state" type="text" placeholder="State">
+		    </p>
+		    <p>
+		        <label for="zip">Zip: </label>
+		        <input id="zip" name="zip" type="text" placeholder="Zip">
+		    </p>
+		    <p>
+		        <label for="phone">Phone: </label>
+		        <input id="phone" name="phone" type="text" placeholder="Phone">
+		    </p>
+		    <p>
+		        <button type="submit">Add</button>
+		    </p>
+		</form>
 	</body>
-	<hr/>
-	<footer>
-	<a href="https://www.facebook.com/CameronHolland"><img class = "social" src="img/facebook-icon.png"/></a>
-	<a href="https://twitter.com/xCAMER0Nx"><img class = "social" src="img/twitter-icon.png"/></a>
-	<a href="http://instagram.com/xshaftx"><img class = "social" src="img/Instagram-icon.png"/></a>
-</footer>
 </html>

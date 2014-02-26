@@ -1,3 +1,8 @@
-item 1
-item 2
-item 3
+Add more styling to webpages
+Incorporate JavaScript on todo list app
+Think of new side projects
+Add info to codeup.dev page
+Connect Four
+Make php games into web games
+add check box to overwrite todo list
+make completed todos go to an archived list

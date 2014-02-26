@@ -14,6 +14,11 @@
     width: 80%;
 }
 
+#convert{
+	background-color: black;
+	color: white;
+}
+
 #bacon{
 	font-size: 30px;
 	color: red;
@@ -76,7 +81,6 @@ img{
 	max-width: 300px;
 }
 
-table{
-	background-color: black;
-	color: white;
+td {
+	padding-left: 10px;
 }
