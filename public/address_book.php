@@ -84,6 +84,7 @@
 			<a href="address_book.php">Address Book</a>
 			<hr />
 		</div>
+		<h1>Address Book Entries</h1>
 		<table>
 			<? foreach ($addressBook as $key => $address) : ?>
 				<tr>
@@ -91,7 +92,7 @@
 						<? foreach ($address as $item) : ?>
 							<td><?= htmlspecialchars(strip_tags($item)) ?></td>
 						<? endforeach; ?>
-						<td><?= " | <a href='/address_book.php?remove=$key'>Mark Complete</a>"; ?></td>
+						<td><?= " | <a href='/address_book.php?remove=$key'>Delete Address</a>"; ?></td>
 					<? endif; ?>
 				</tr>
 			<? endforeach; ?>
@@ -101,23 +102,23 @@
 			<p><?= $errorMessage; ?></p>
 			<p>
 		        <label for="name">Name: </label>
-		        <input id="name" name="name" type="text" autofocus = "autofocus" placeholder="Name">
+		        <input id="name" name="name" type="text" autofocus = "autofocus" placeholder="Name" required>
 		    </p>
 		    <p>
 		        <label for="address">Address: </label>
-		        <input id="address" name="address" type="text" placeholder="Address">
+		        <input id="address" name="address" type="text" placeholder="Address" required>
 		    </p>
 		    <p>
 		        <label for="city">City: </label>
-		        <input id="city" name="city" type="text" placeholder="City">
+		        <input id="city" name="city" type="text" placeholder="City" required>
 		    </p>
 		    <p>
 		        <label for="state">State: </label>
-		        <input id="state" name="state" type="text" placeholder="State">
+		        <input id="state" name="state" type="text" placeholder="State" required>
 		    </p>
 		    <p>
 		        <label for="zip">Zip: </label>
-		        <input id="zip" name="zip" type="text" placeholder="Zip">
+		        <input id="zip" name="zip" type="text" placeholder="Zip" required>
 		    </p>
 		    <p>
 		        <label for="phone">Phone: </label>

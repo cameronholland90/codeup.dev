@@ -49,6 +49,15 @@
 	color: red;
 }
 
+input, textarea {
+  outline: none;
+}
+ 
+input:focus, textarea:focus {
+  box-shadow: 0 0 5px green;
+  border: 2px inset #66CC66;
+}
+
 body{
 	background-image:url('/img/background3.jpg');
 	background-repeat: no-repeat;
