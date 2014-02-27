@@ -4,3 +4,6 @@ Think of new side projects
 Add info to codeup.dev page
 Connect Four
 Make php games into web games
+add alphabetizing feature to address book
+look into twitter bootstrap classes
+learn more about navbar class

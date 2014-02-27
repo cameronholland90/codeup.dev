@@ -59,10 +59,11 @@ input:focus, textarea:focus {
 }
 
 body{
-	background-image:url('/img/background3.jpg');
+	background-image:url('/img/background7.jpg');
 	background-repeat: no-repeat;
 	background-attachment:fixed;
 	background-size: 100%;
+	color: green;
 }
 
 hr {
@@ -91,5 +92,9 @@ img{
 }
 
 td {
+	padding-left: 10px;
+}
+
+th {
 	padding-left: 10px;
 }

@@ -1,59 +1,92 @@
 <?php
-	$filename = "data/address_book.csv";
-	$errorMessage = "";
+	class AddressDataStore {
 
-	function openFile($filename) {
-		$handle = fopen($filename, "r");
-		$filesize = filesize($filename);
-		$openList = [];
-		if($filesize != 0) {
-			while(!feof($handle)) {
-				$openList[] = fgetcsv($handle);
+	    public $filename = "";
+	    public $errorMessage = "";
+
+	    function __construct($location = '') {
+	    	$this->filename = $location;
+	    }
+
+	    function read_address_book() {
+	        $handle = fopen($this->filename, "r");
+			$filesize = filesize($this->filename);
+			$openList = [];
+			if($filesize != 0) {
+				while(!feof($handle)) {
+					$openList[] = fgetcsv($handle);
+				}
+			} else {
+				$openList = array();
+			} 
+			fclose($handle);
+			return $openList;
+	    }
+
+	    function write_address_book($addresses_array) {
+	        // Code to write $addresses_array to file $this->filename
+	        $handle = fopen($this->filename, 'w');
+			foreach ($addresses_array as $fields) {
+				if ($fields != "") {
+					fputcsv($handle, $fields);
+				}
 			}
-		} else {
-			$openList = array();
-		} 
-		fclose($handle);
-		return $openList;
-	}
+			fclose($handle);
+	    }
 
-	function saveFile($addressBook, $filename) {
-		$handle = fopen($filename, 'w');
-		foreach ($addressBook as $fields) {
-			if ($fields != "") {
-				fputcsv($handle, $fields);
+	    function addItem($addressBook) {
+			$temp = $_POST;
+			if (($temp['name'] == '' || $temp['address'] == '' || $temp['city'] == '' || $temp['state'] == '' || $temp['zip'] == '') && (empty($_FILES))) {
+				$this->errorMessage = "Please enter required information";
+			} else {
+				$addressBook[] = $temp;
+				$this->errorMessage = "";
 			}
+			return $addressBook;
 		}
-		fclose($handle);
+
 	}
 
-	function addItem($addressBook, &$errorMessage) {
-		$temp = $_POST;
-		if ($temp['name'] == '' || $temp['address'] == '' || $temp['city'] == '' || $temp['state'] == '' || $temp['zip'] == '') {
-			$errorMessage = "Please enter required information";
-		} else {
-			$addressBook[] = $temp;
-			$errorMessage = "";
-		}
-		return $addressBook;
-	}
+	$book = new AddressDataStore("data/address_book.csv");
+	$newlist = new AddressDataStore();
 
-	$addressBook = openFile($filename);
+	$addressBook = $book->read_address_book();
 
-	if (!empty($_POST) ) {
-		$addressBook = addItem($addressBook, $errorMessage);
+	if (!empty($_POST) && empty($_FILES) ) {
+		$addressBook = $book->addItem($addressBook);
 	}
 
 	if (isset($_GET['remove']) && is_numeric($_GET['remove'])) {
 		$remove = $_GET['remove'];	
 		unset($addressBook[$remove]);
-		saveFile($addressBook, $filename);
+		$book->write_address_book($addressBook);
 		$_GET = array();
 		header("Location: address_book.php");
 		exit(0);
 	}
 
-	saveFile($addressBook, $filename)
+	if (count($_FILES) > 0 && $_FILES['uploaded_file']['error'] == 0 && $_FILES['uploaded_file']['type'] == 'text/csv') {
+	    // Set the destination directory for uploads
+	    $upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
+	    // Grab the filename from the uploaded file by using basename
+	    $tempfilename = basename($_FILES['uploaded_file']['name']);
+	    // Create the saved filename using the file's original name and our upload directory
+	    $newlist->filename = $upload_dir . $tempfilename;
+	    // Move the file from the temp location to our uploads directory
+	    move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $newlist->filename);
+	    $appendList = $newlist->read_address_book();
+	    if ($_POST['overwrite'] == "yes") {
+	    	$addressBook = $appendList;
+	    	$book->write_address_book($addressBook);
+	    } else {
+	    	$addressBook = array_merge($addressBook, $appendList);
+	    	$book->write_address_book($addressBook);
+	    }
+	}
+
+	$book->write_address_book($addressBook);
+	$addressBook = $book->read_address_book();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -86,6 +119,7 @@
 		</div>
 		<h1>Address Book Entries</h1>
 		<table>
+			<tr><th>Name</th><th>Address</th><th>City</th><th>State</th><th>Zip</th><th>Phone</th></tr>
 			<? foreach ($addressBook as $key => $address) : ?>
 				<tr>
 					<? if ($address != '') : ?>
@@ -97,33 +131,42 @@
 				</tr>
 			<? endforeach; ?>
 		</table>
-		<form method = "POST" action = "">
+		<form method = "POST" enctype="multipart/form-data" action = "">
 			<h3>Add a new address:</h3>
-			<p><?= $errorMessage; ?></p>
+			<p><?= $book->errorMessage; ?></p>
 			<p>
 		        <label for="name">Name: </label>
-		        <input id="name" name="name" type="text" autofocus = "autofocus" placeholder="Name" required>
+		        <input id="name" name="name" type="text" autofocus = "autofocus" placeholder="Name">
 		    </p>
 		    <p>
 		        <label for="address">Address: </label>
-		        <input id="address" name="address" type="text" placeholder="Address" required>
+		        <input id="address" name="address" type="text" placeholder="Address">
 		    </p>
 		    <p>
 		        <label for="city">City: </label>
-		        <input id="city" name="city" type="text" placeholder="City" required>
+		        <input id="city" name="city" type="text" placeholder="City">
 		    </p>
 		    <p>
 		        <label for="state">State: </label>
-		        <input id="state" name="state" type="text" placeholder="State" required>
+		        <input id="state" name="state" type="text" placeholder="State">
 		    </p>
 		    <p>
 		        <label for="zip">Zip: </label>
-		        <input id="zip" name="zip" type="text" placeholder="Zip" required>
+		        <input id="zip" name="zip" type="text" placeholder="Zip">
 		    </p>
 		    <p>
 		        <label for="phone">Phone: </label>
 		        <input id="phone" name="phone" type="text" placeholder="Phone">
 		    </p>
+		    <p>
+		        <label for="uploaded_file">What file would you like to upload?</label>
+		        <input id="uploaded_file" name="uploaded_file" type="file">
+		    </p>
+		    <p>
+			    <label for="overwrite">
+				    <input type="checkbox" id="overwrite" name="overwrite" value="yes"> Check if you would like to save over old address Book
+				</label>
+			</p>
 		    <p>
 		        <button type="submit">Add</button>
 		    </p>
