@@ -4,5 +4,5 @@ Think of new side projects
 Add info to codeup.dev page
 Connect Four
 Make php games into web games
-add alphabetizing feature to address book
-look into twitter bootstrap classes
+add check box to overwrite todo list
+make completed todos go to an archived list
