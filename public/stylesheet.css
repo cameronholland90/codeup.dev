@@ -36,10 +36,6 @@
 	font-family: fantasy;
 }
 
-#navbar {
-	text-align: center;
-}
-
 .social{
 	max-width: 50px;
 }
@@ -67,7 +63,7 @@ body{
 }
 
 hr {
-	border-color: black;
+	border-color: green;
 }
 
 h2{
