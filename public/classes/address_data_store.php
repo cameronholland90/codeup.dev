@@ -7,6 +7,11 @@ class AddressDataStore extends Filestore {
 	public $errorMessage = "";
 	public $entry;
 
+	function __construct($location = '') {
+    	$this->location = strtolower($location);
+    	parent::__construct($location);
+    }
+
     function read_address_book() {
         return $this->read_csv();
     }

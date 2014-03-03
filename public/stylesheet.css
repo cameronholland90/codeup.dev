@@ -50,16 +50,16 @@ input, textarea {
 }
  
 input:focus, textarea:focus {
-  box-shadow: 0 0 5px green;
-  border: 2px inset #66CC66;
+  box-shadow: 0 0 5px green !important;
+  border: 2px inset #66CC66 !important;
 }
 
 body{
-	background-image:url('/img/background7.jpg');
+	background-image:url('/img/cake-background5.png');
 	background-repeat: no-repeat;
 	background-attachment:fixed;
 	background-size: 100%;
-	color: green;
+	color: #66CC33;
 }
 
 hr {
@@ -68,7 +68,7 @@ hr {
 
 h2{
 	text-align: center;
-	color: black;
+	color: green;
 	font-family: cursive;
 	text-shadow: 0 1px 1px red;
 }
@@ -93,4 +93,8 @@ td {
 
 th {
 	padding-left: 10px;
+}
+
+button {
+	color: black;
 }

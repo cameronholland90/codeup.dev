@@ -54,8 +54,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		    <link href="../bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-		    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	    <link href="../bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+	    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 		<script src="../bootstrap/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
 		<link rel="shortcut icon" href="img/Arches v2-6.jpg" />
@@ -64,7 +64,7 @@
 
 	<body>
 
-	<div id="navbar" class="navbar navbar-inverse navbar-static-top">
+	<div id="navbar" class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="row">
 				<div class="navbar-header">
@@ -93,6 +93,7 @@
 							<ul class="dropdown-menu">
 								<li><a href="todo-list.php">To Do List</a></li>
 								<li><a href="address_book.php">Address Book</a></li>
+								<li><a href="yahtzee.php">Yahtzee</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -106,20 +107,30 @@
 	</div>
 	<hr />
 	<h3 id="leeroy">THUMBS UP LETS DO THIS!</h3>
-	<table>
+	<table class="table table-striped">
 	<? foreach ($todolist as $key => $item) : ?>
 		<tr>
-			<td><?= htmlspecialchars(strip_tags($item)) . "</td><td><a href='/todo-list.php?complete=$key'>Mark Complete</a>"; ?></td>
-		<tr>
+			<td><?= htmlspecialchars(strip_tags($item)) . "</td><td><a href='/todo-list.php?complete=$key'>&#10004;</a>"; ?></td>
+		</tr>
 	<? endforeach; ?>
 	</table>
 	
-	<form method="POST" enctype="multipart/form-data" action="">
+	<form method="POST" action="">
 		<h3>Add a new todo item:</h3>
 		<p>
-	        <label for="todoitem">What do you need todo?</label>
-	        <input id="todoitem" name="todoitem" type="text" autofocus = "autofocus" placeholder="ADD HERE">
+	        <div class="row">
+			  <div class="col-lg-6">
+			    <div class="input-group">
+			      <span class="input-group-btn">
+			        <button class="btn btn-default" type="button">Add</button>
+			      </span>
+			      <input id="todoitem" name="todoitem" autofocus="autofocus" placeholder="What do you need to do?" type="text" class="form-control">
+			    </div><!-- /input-group -->
+			  </div><!-- /.col-lg-6 -->
+			</div>
 	    </p>
+	</form>
+	<form method="POST" enctype="multipart/form-data" action="">
 	    <h3>Upload File</h3>
 	    <?php
 	    	if (count($_FILES) > 0 && $_FILES['uploaded_file']['error'] == 0 && $_FILES['uploaded_file']['type'] != 'text/plain') {

@@ -52,8 +52,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		    <link href="../bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-		    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	    <link href="../bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+	    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 		<script src="../bootstrap/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
 		<link rel="shortcut icon" href="img/Arches v2-6.jpg" />
@@ -62,7 +62,7 @@
 
 	<body>
 
-		<div id="navbar" class="navbar navbar-inverse navbar-static-top">
+		<div id="navbar" class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
 				<div class="row">
 					<div class="navbar-header">
@@ -91,6 +91,7 @@
 								<ul class="dropdown-menu">
 									<li><a href="todo-list.php">To Do List</a></li>
 									<li><a href="address_book.php">Address Book</a></li>
+									<li><a href="yahtzee.php">Yahtzee</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -105,8 +106,8 @@
 		</div>
 		<hr />
 		<h1>Address Book Entries</h1>
-		<table>
-			<tr><th>Name</th><th>Address</th><th>City</th><th>State</th><th>Zip</th><th>Phone</th></tr>
+		<table class = "table table-hover table-bordered">
+			<tr><th>Name</th><th>Address</th><th>City</th><th>State</th><th>Zip</th><th>Phone</th><th></th></tr>
 			<? foreach ($addressBook as $key => $address) : ?>
 				<tr>
 					<? if ($address != '') : ?>
