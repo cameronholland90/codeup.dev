@@ -3,15 +3,39 @@
 class Filestore {
 
     public $filename = "";
+    public $errorMessage = "";
+    public $entry;
+    private $is_csv = FALSE;
 
     function __construct($location = '') {
     	$this->filename = $location;
+        if (substr($this->filename, -3) === 'csv') {
+            $this->is_csv = TRUE;
+        } else {
+            $this->is_csv = FALSE;
+        }
+    }
+
+    public function read() {
+        if ($this->is_csv) {
+            return $this->read_csv();
+        } else {
+            return $this->read_lines();
+        }
+    }
+
+    public function write($array) {
+        if ($this->is_csv) {
+            $this->write_csv($array);
+        } else {
+            $this->write_lines($array);
+        }
     }
 
     /**
      * Returns array of lines in $this->filename
      */
-    function read_lines()
+    private function read_lines()
     {
     	$handle = fopen($this->filename, "r");
 		$filesize = filesize($this->filename);
@@ -28,7 +52,7 @@ class Filestore {
     /**
      * Writes each element in $array to a new line in $this->filename
      */
-    function write_lines($array)
+    private function write_lines($array)
     {
     	$handle = fopen($this->filename, "w");
 		$saveList = implode("\n", $array);
@@ -39,14 +63,14 @@ class Filestore {
     /**
      * Reads contents of csv $this->filename, returns an array
      */
-    function read_csv()
+    private function read_csv()
     {
     	$handle = fopen($this->filename, "r");
 		$filesize = filesize($this->filename);
 		$openList = [];
 		if($filesize != 0) {
-			while(!feof($handle)) {
-				$openList[] = fgetcsv($handle);
+			while(($data = fgetcsv($handle)) !== FALSE) {
+				$openList[] = $data;
 			}
 		} else {
 			$openList = array();
@@ -58,16 +82,28 @@ class Filestore {
     /**
      * Writes contents of $array to csv $this->filename
      */
-    function write_csv($array)
+    private function write_csv($arrays)
     {
     	// Code to write $array to file $this->filename
         $handle = fopen($this->filename, 'w');
-		foreach ($array as $fields) {
-			if ($fields != '') {
+		foreach ($arrays as $fields) {
+			if (!empty($fields)) {
 				fputcsv($handle, $fields);
 			}
 		}
 		fclose($handle);
+    }
+
+    public function addItem($newItem) {
+        if (!empty($newItem['todoitem'])) {
+            throw new TooSmallException('One of the required fields was left blank');
+        } elseif (strlen($newItem['todoitem']) > 240){
+            throw new TooBigException('One of the required fields was over 240 characters');
+        } else {
+            $newItem[] = $this->entry;
+            $this->errorMessage = "";
+        }
+        return $newItem;
     }
 
 }

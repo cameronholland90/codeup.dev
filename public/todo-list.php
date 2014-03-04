@@ -1,24 +1,32 @@
 <?php
 	require_once('classes/filestore.php');
+	require_once('classes/too-small-exception.php');
 
 	$todo = new Filestore("data/todo_list.txt");
 	$archive = new Filestore("data/archived-list.txt");
+
+	$errorMessage = '';
 	
-	$todolist = $todo->read_lines();
-	if (!empty($_POST['todoitem']) ) {
-		$todolist[] = $_POST['todoitem'];
-		$_POST = array();
-		$todo->write_lines($todolist);
-	}
+	$todolist = $todo->read();
+	if (!empty($_POST)) {
+		$todo->entry = $_POST;
+		try {
+			$todo->addItem($todolist);
+		} catch(TooSmallException $ex) {
+			$errorMessage = 'Please enter a todo';
+		} catch(TooBigException $e) {
+			$errorMessage = 'Each todo item can only be 240 characters long';
+		}
+	} 
 
 	if (isset($_GET['complete']) && is_numeric($_GET['complete'])) {
 		$remove = $_GET['complete'];
-		$archiveItems = $archive->read_lines();
+		$archiveItems = $archive->read();
 		$archiveItems[]  = $todolist[$remove]; 
 		unset($todolist[$remove]);
-		$archive->write_lines($archiveItems);
+		$archive->write($archiveItems);
 		$_GET = array();
-		$todo->write_lines($todolist);
+		$todo->write($todolist);
 		header("Location: todo-list.php");
 		exit(0);
 	}
@@ -33,13 +41,13 @@
 	    // Move the file from the temp location to our uploads directory
 	    move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $saved_filename);
 	    $newfile = new Filestore($saved_filename);
-	    $appendList = $newfile->read_lines();
+	    $appendList = $newfile->read();
 	    if ($_POST['overwrite'] == "yes") {
 	    	$todolist = $appendList;
-	    	$todo->write_lines($todolist);
+	    	$todo->write($todolist);
 	    } else {
 	    	$todolist = array_merge($todolist, $appendList);
-	    	$todo->write_lines($todolist);
+	    	$todo->write($todolist);
 	    }
 	}
 
@@ -59,7 +67,7 @@
 		<script src="../bootstrap/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
 		<link rel="shortcut icon" href="img/Arches v2-6.jpg" />
-		<title>Address Book</title>
+		<title>Todo List App</title>
 	</head>
 
 	<body>
@@ -117,6 +125,7 @@
 	
 	<form method="POST" action="">
 		<h3>Add a new todo item:</h3>
+		<p><?= $errorMessage; ?></p>
 		<p>
 	        <div class="row">
 			  <div class="col-lg-6">
