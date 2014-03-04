@@ -45,6 +45,10 @@
 	color: red;
 }
 
+.die {
+	font-size: 100px;
+}
+
 input, textarea {
   outline: none;
 }

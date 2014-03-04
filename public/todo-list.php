@@ -11,7 +11,8 @@
 	if (!empty($_POST)) {
 		$todo->entry = $_POST;
 		try {
-			$todo->addItem($todolist);
+			$todolist = $todo->addItem($todolist);
+			$todo->write($todolist);
 		} catch(TooSmallException $ex) {
 			$errorMessage = 'Please enter a todo';
 		} catch(TooBigException $e) {
@@ -21,14 +22,16 @@
 
 	if (isset($_GET['complete']) && is_numeric($_GET['complete'])) {
 		$remove = $_GET['complete'];
+		var_dump($remove);
 		$archiveItems = $archive->read();
-		$archiveItems[]  = $todolist[$remove]; 
+		var_dump($archiveItems);
+		$archiveItems[] = $todolist[$remove]; 
 		unset($todolist[$remove]);
 		$archive->write($archiveItems);
 		$_GET = array();
 		$todo->write($todolist);
 		header("Location: todo-list.php");
-		exit(0);
+		// exit(0);
 	}
 
 	if (count($_FILES) > 0 && $_FILES['uploaded_file']['error'] == 0 && $_FILES['uploaded_file']['type'] == 'text/plain') {

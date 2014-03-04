@@ -5,5 +5,4 @@ Add info to codeup.dev page
 Connect Four
 Make php games into web games
 add alphabetizing feature to address book
-look into twitter bootstrap classes
-work with sessions on html pages for php game
+work on yahtzee

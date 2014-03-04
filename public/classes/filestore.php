@@ -94,16 +94,16 @@ class Filestore {
 		fclose($handle);
     }
 
-    public function addItem($newItem) {
-        if (!empty($newItem['todoitem'])) {
+    public function addItem($array) {
+        if (empty($this->entry['todoitem'])) {
             throw new TooSmallException('One of the required fields was left blank');
-        } elseif (strlen($newItem['todoitem']) > 240){
+        } elseif (strlen($this->entry['todoitem']) > 240){
             throw new TooBigException('One of the required fields was over 240 characters');
         } else {
-            $newItem[] = $this->entry;
+            $array[] = $this->entry['todoitem'];
             $this->errorMessage = "";
         }
-        return $newItem;
+        return $array;
     }
 
 }

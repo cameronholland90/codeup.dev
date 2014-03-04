@@ -2,3 +2,5 @@ add check box to overwrite todo list
 make completed todos go to an archived list
 Add address book to codeup.dev page
 learn more about navbar class
+work with sessions on html pages for php game
+look into twitter bootstrap classes
