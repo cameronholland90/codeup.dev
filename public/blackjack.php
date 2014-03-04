@@ -1,80 +1,16 @@
-<?php
-	require_once('classes/filestore.php');
-	require_once('classes/too-small-exception.php');
-
-	$todo = new Filestore("data/todo_list.txt");
-	$archive = new Filestore("data/archived-list.txt");
-
-	$errorMessage = '';
-	
-	$todolist = $todo->read();
-	if (!empty($_POST)) {
-		$todo->entry = $_POST;
-		try {
-			$todolist = $todo->addItem($todolist);
-			$todo->write($todolist);
-		} catch(TooSmallException $ex) {
-			$errorMessage = 'Please enter a todo';
-		} catch(TooBigException $e) {
-			$errorMessage = 'Each todo item can only be 240 characters long';
-		}
-	} 
-
-	if (isset($_GET['complete']) && is_numeric($_GET['complete'])) {
-		$remove = $_GET['complete'];
-		var_dump($remove);
-		$archiveItems = $archive->read();
-		var_dump($archiveItems);
-		$archiveItems[] = $todolist[$remove]; 
-		unset($todolist[$remove]);
-		$archive->write($archiveItems);
-		$_GET = array();
-		$todo->write($todolist);
-		header("Location: todo-list.php");
-		// exit(0);
-	}
-
-	if (count($_FILES) > 0 && $_FILES['uploaded_file']['error'] == 0 && $_FILES['uploaded_file']['type'] == 'text/plain') {
-	    // Set the destination directory for uploads
-	    $upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
-	    // Grab the filename from the uploaded file by using basename
-	    $tempfilename = basename($_FILES['uploaded_file']['name']);
-	    // Create the saved filename using the file's original name and our upload directory
-	    $saved_filename = $upload_dir . $tempfilename;
-	    // Move the file from the temp location to our uploads directory
-	    move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $saved_filename);
-	    $newfile = new Filestore($saved_filename);
-	    $appendList = $newfile->read();
-	    if ($_POST['overwrite'] == "yes") {
-	    	$todolist = $appendList;
-	    	$todo->write($todolist);
-	    } else {
-	    	$todolist = array_merge($todolist, $appendList);
-	    	$todo->write($todolist);
-	    }
-	}
-
-
-?>
-
-<!DOCTYPE html>
 <html>
-
-
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	    <link href="../bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-	    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-		<script src="../bootstrap/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
-		<link rel="shortcut icon" href="img/Arches v2-6.jpg" />
-		<title>Todo List App</title>
-	</head>
-
-	<body>
-
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+	<link rel="shortcut icon" href="img/Arches v2-6.jpg" />
+	<title>Blackjack</title>
+</head>
+<body>
 	<div id="navbar" class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="row">
@@ -118,50 +54,6 @@
 		<h1>Welcome to Cameron Holland's Codeup.dev page</h1>
 	</div>
 	<hr />
-	<h3 id="leeroy">THUMBS UP LETS DO THIS!</h3>
-	<table class="table table-striped">
-	<? foreach ($todolist as $key => $item) : ?>
-		<tr>
-			<td><?= htmlspecialchars(strip_tags($item)) . "</td><td><a href='/todo-list.php?complete=$key'>&#10004;</a>"; ?></td>
-		</tr>
-	<? endforeach; ?>
-	</table>
-	
-	<form method="POST" action="">
-		<h3>Add a new todo item:</h3>
-		<p><?= $errorMessage; ?></p>
-		<p>
-	        <div class="row">
-			  <div class="col-lg-6">
-			    <div class="input-group">
-			      <span class="input-group-btn">
-			        <button class="btn btn-default" type="button">Add</button>
-			      </span>
-			      <input id="todoitem" name="todoitem" autofocus="autofocus" placeholder="What do you need to do?" type="text" class="form-control">
-			    </div><!-- /input-group -->
-			  </div><!-- /.col-lg-6 -->
-			</div>
-	    </p>
-	</form>
-	<form method="POST" enctype="multipart/form-data" action="">
-	    <h3>Upload File</h3>
-	    <?php
-	    	if (count($_FILES) > 0 && $_FILES['uploaded_file']['error'] == 0 && $_FILES['uploaded_file']['type'] != 'text/plain') {
-	    		echo "<p style=\"color: red\";>Please upload plain text files only.</p>";
-	    	}
-	    ?>
-	    <p>
-	        <label for="uploaded_file">What file would you like to upload?</label>
-	        <input id="uploaded_file" name="uploaded_file" type="file">
-	    </p>
-	    <p>
-		    <label for="overwrite">
-			    <input type="checkbox" id="overwrite" name="overwrite" value="yes"> Check if you would like to save over old todo list
-			</label>
-		</p>
-	    <p>
-	        <button type="submit">Add</button>
-	    </p>
-	</form>
+	<h3>Blackjack</h3>
 </body>
 </html>
