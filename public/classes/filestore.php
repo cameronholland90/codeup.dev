@@ -2,7 +2,7 @@
 
 class Filestore {
 
-    public $filename = "";
+    private $filename = "";
     public $errorMessage = "";
     public $entry;
     private $is_csv = FALSE;
@@ -14,6 +14,14 @@ class Filestore {
         } else {
             $this->is_csv = FALSE;
         }
+    }
+
+    public function get_name() {
+        return $this->filename;
+    }
+
+    public function set_name($location) {
+        $this->filename = $location;
     }
 
     public function read() {
