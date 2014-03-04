@@ -31,6 +31,7 @@ class diceHand {
 			$this->diceToReroll = array(0, 1, 2, 3, 4);		// array that will hold index of dice to reroll each turn
 			$this->gameScore = $_SESSION['gamescore'];								// keeps track of score
 			$this->remainingOptions = $_SESSION['remaining'];
+			$this->remainingOptions = array_values($this->remainingOptions);
 			if (isset($_POST['choice'])) {
 				$key = $_POST['choice'];
 				$choice = array_search($_SESSION['handoptions'][$key], $this->remainingOptions);
@@ -47,6 +48,7 @@ class diceHand {
 			$this->gameScore = $_SESSION['gamescore'];
 			$this->rollcount = $_SESSION['count'];
 			$this->remainingOptions = $_SESSION['remaining'];
+			$this->remainingOptions = array_values($this->remainingOptions);
 			if (isset($_POST['choice'])) {
 				$key = $_POST['choice'];
 				$choice = array_search($_SESSION['handOptions'][$key], $this->remainingOptions);
@@ -193,6 +195,7 @@ $_SESSION['remaining'] = $hand->remainingOptions;
 	<h3>Yahtzee</h3>
 	<?php if (!empty($hand->remainingOptions)) { ?>
 		<h4><?= "Your score: " . $hand->gameScore; ?></h4>
+		<h4><?= "You have rolled " . $hand->rollcount . " time(s)." ?></h4>
 		<br>
 		<?php if ($hand->rollcount < 3) { ?>
 			<form method="POST" action="">
