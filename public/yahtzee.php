@@ -187,6 +187,7 @@ $_SESSION['remaining'] = $hand->remainingOptions;
 								<li><a href="todo-list.php">To Do List</a></li>
 								<li><a href="address_book.php">Address Book</a></li>
 								<li><a href="yahtzee.php">Yahtzee</a></li>
+								<li><a href="blackjack.php">Blackjack</a></li>
 							</ul>
 						</li>
 					</ul>
