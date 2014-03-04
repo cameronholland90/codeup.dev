@@ -1,5 +1,12 @@
 <?php
+
 session_start();
+
+if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://codeup.dev/yahtzee.php') {
+	session_destroy();
+	session_start();
+}
+
 // var_dump($_POST);
 // var_dump($_SESSION);
 
@@ -223,7 +230,7 @@ $_SESSION['remaining'] = $hand->remainingOptions;
 				<?php $_SESSION['handoptions'] = $hand->handOptions; ?>
 				<?php $_SESSION['scoreoptions'] = $hand->scores; ?>
 				<?php foreach ($hand->handOptions as $key => $value): ?>
-					<?= "<p><label for='choice{$key}'><input type='radio' id='choice{$key}' name='choice' value='{$key}'> " . $value . " for " . $hand->scores[$key] . " points</label></p>"; ?>
+					<?= "<p><label for='choice{$key}'><input type='radio' id='choice{$key}' name='choice' value='{$key}' checked> " . $value . " for " . $hand->scores[$key] . " points</label></p>"; ?>
 				<?php endforeach; ?>
 				<p>
 			        <button type="submit">Submit choice/Start Next Turn</button>
