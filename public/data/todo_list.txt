@@ -7,3 +7,4 @@ Make php games into web games
 add alphabetizing feature to address book
 make blackjack a web app
 work on linkedin profile
+look into jquery for alphabetizing in address book
