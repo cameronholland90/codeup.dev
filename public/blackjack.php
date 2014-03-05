@@ -1,3 +1,152 @@
+<?php
+
+session_start();
+if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://codeup.dev/blackjack.php') {
+	session_destroy();
+	session_start();
+} elseif (isset($_POST['playagain'])) {
+	session_destroy();
+	session_start();
+}
+
+// create an array for suits
+$suits = ['C', 'H', 'S', 'D'];
+
+// create an array for cards
+$cards = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+
+class Card {
+	private $cardValue;
+	private $cardSuit;
+	private $cardFaceValue;
+
+	public function __construct($value, $suit) {
+		$this->cardFaceValue = $value;
+		$this->cardSuit = $suit;
+		$this->cardValue = $this->setValue();
+	}
+
+	public function getValue($bust = FALSE) {
+		if ($this->cardFaceValue == 'A' && $bust) {
+			return 1;
+		} else {
+			return $this->cardValue;
+		}
+	}
+
+	public function getSuit() {
+		return $this->cardSuit;
+	}
+
+	public function getFace() {
+		return $this->cardFaceValue;
+	}
+
+	public function setValue() {
+		if ($this->cardFaceValue == 'A') {
+			return 11;
+		} elseif ($this->cardFaceValue == 'K' || $this->cardFaceValue == 'Q' || $this->cardFaceValue == 'J' || $this->cardFaceValue == '10') {
+			return 10;
+		} else {
+			return $this->cardFaceValue;
+		}
+	}
+}
+
+class Deck {
+	public $fullDeck = array();
+
+	public function drawCard(&$player) {
+		$player->hand[] = $this->fullDeck[0];
+		unset($this->fullDeck[0]);
+		$this->fullDeck = array_values($this->fullDeck);
+	}
+
+	public function shuffleDeck() {
+		shuffle($this->fullDeck);
+	}
+}
+
+class Hand {
+	public $hand = array();
+
+	public function __construct() {
+	}
+
+	public function getScore() {
+		$total = 0;
+	  	foreach ($this->hand as $key => $card) {
+	  		$total += $card->getValue();
+	  	}
+	  	if ($total > 21) {
+	  		$total = 0;
+	  		foreach ($this->hand as $key => $card) {
+	  			$total += $card->getValue(TRUE);
+	  		}
+	  	}
+	  	return $total;
+	}
+
+	public function displayHand($hidden = FALSE) {
+		if ($hidden) {
+			echo "<p>";
+			foreach ($this->hand as $key => $card) {
+				if ($key > 0) {
+					echo "[???] ";
+				} else {
+					echo "[{$card->getFace()} {$card->getSuit()}] ";
+				}
+			}
+			echo "</p>";
+		} else {
+			echo "<p>";
+			foreach ($this->hand as $key => $card) {
+				echo "[{$card->getFace()} {$card->getSuit()}] ";
+			}
+			echo "</p>";
+		}
+	}
+}
+
+$deck = new Deck();
+
+foreach ($suits as $suit) {
+	foreach ($cards as $card) {
+		$deck->fullDeck[] = new Card($card, $suit);
+	}
+}
+$deck->shuffleDeck();
+
+$player = new Hand();
+$dealer = new Hand();
+
+if (isset($_SESSION['player']) && isset($_SESSION['dealer'])) {
+	$player->hand = $_SESSION['player'];
+	$dealer->hand = $_SESSION['dealer'];
+	$deck->fullDeck = $_SESSION['deck'];
+}
+
+if (empty($player->hand) && empty($dealer->hand)) {
+	$deck->drawCard($player);
+	$deck->drawCard($player);
+	$deck->drawCard($dealer);
+	$deck->drawCard($dealer);
+}
+
+if (!isset($_POST['stay']) || $dealer->getScore() != 21) {
+	if (isset($_POST['hit']) && $_POST['hit'] === 'yes') {
+		$deck->drawCard($player);
+	}
+} else {
+	while ($dealer->getScore() < 17) {
+		$deck->drawCard($dealer);
+	}
+}
+
+$_SESSION['player'] = $player->hand;
+$_SESSION['dealer'] = $dealer->hand;
+$_SESSION['deck'] = $deck->fullDeck;
+?>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -54,6 +203,39 @@
 		<h1>Welcome to Cameron Holland's Codeup.dev page</h1>
 	</div>
 	<hr />
-	<h3>Blackjack</h3>
+	<h1>Blackjack</h1>
+	<?php if ($dealer->getScore() >= 17 && ($player->getScore() === 21 || isset($_POST['stay']))) { ?>
+		<?php if ($dealer->getScore() > 21) { ?>
+			<h3>Player Wins! Dealer Busted!</h3>
+		<?php } elseif ($player->getScore() > 21) { ?>
+			<h3>Dealer Wins! Player Busted!</h3>
+		<?php } elseif ($dealer->getScore() > $player->getScore()) { ?>
+			<h3>Dealer Wins!</h3>
+		<?php } elseif ($dealer->getScore() < $player->getScore()) { ?>
+			<h3>Player Wins!</h3>
+		<?php } else { ?>
+			<h3>Dealer Wins!</h3>
+		<?php } ?>
+		<h3>Dealer Hand <?= "Score: " . $dealer->getScore(); ?></h3>
+		<?php $dealer->displayHand(); ?>
+		<br>
+		<h3>Player Hand <?= "Score: " . $player->getScore(); ?></h3>
+		<?php $player->displayHand(); ?>
+		<br>
+		<form method="POST" action="">
+			<button name="playagain" type="submit" value="yes">Play Again</button>
+		</form>
+	<?php } elseif ($player->getScore() !== 21 || !isset($_POST['stay'])) { ?>
+		<h3>Dealer Hand <?= "Score: ??"; ?></h3>
+		<?php $dealer->displayHand(TRUE); ?>
+		<br>
+		<h3>Player Hand <?= "Score: " . $player->getScore(); ?></h3>
+		<?php $player->displayHand(); ?>
+		<br>
+		<form method="POST" action="">
+			<button name="hit" type="submit" value="yes">Hit</button>
+			<button name="stay" type="submit" value="yes">Stay</button>
+		</form>
+	<?php } ?>
 </body>
 </html>
