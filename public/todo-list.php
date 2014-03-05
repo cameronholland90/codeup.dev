@@ -69,6 +69,7 @@
 	    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 		<script src="../bootstrap/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<link href='http://fonts.googleapis.com/css?family=Revalia' rel='stylesheet' type='text/css'>
 		<link rel="shortcut icon" href="img/Arches v2-6.jpg" />
 		<title>Todo List App</title>
 	</head>

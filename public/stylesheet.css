@@ -59,8 +59,7 @@
 	text-align: center; 
 	padding: 10px; 
 	margin: 10px; 
-	background: #FFF; 
-	color: #cc0033; 
+	background: #FFF;
 	float: left;
 }
 
@@ -104,6 +103,7 @@ body{
 	background-attachment:fixed;
 	background-size: 100%;
 	color: #66CC33;
+	font-family: 'Revalia', cursive;
 }
 
 hr {

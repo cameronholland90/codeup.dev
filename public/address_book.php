@@ -62,6 +62,7 @@
 	    <link href="../bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
 	    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 		<script src="../bootstrap/js/bootstrap.min.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Revalia' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
 		<link rel="shortcut icon" href="img/Arches v2-6.jpg" />
 		<title>Address Book</title>
