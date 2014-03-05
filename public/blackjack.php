@@ -19,11 +19,17 @@ class Card {
 	private $cardValue;
 	private $cardSuit;
 	private $cardFaceValue;
+	private $color;
 
 	public function __construct($value, $suit) {
 		$this->cardFaceValue = $value;
 		$this->cardSuit = $suit;
 		$this->cardValue = $this->setValue();
+		if ($this->cardSuit === '&hearts;' || $this->cardSuit === '&diams;') {
+			$this->color = 'red';
+		} else {
+			$this->color = 'black';
+		}
 	}
 
 	public function getValue($bust = FALSE) {
@@ -40,6 +46,10 @@ class Card {
 
 	public function getFace() {
 		return $this->cardFaceValue;
+	}
+
+	public function getColor() {
+		return $this->color;
 	}
 
 	public function setValue() {
@@ -92,15 +102,20 @@ class Hand {
 		if ($hidden) {
 			foreach ($this->hand as $key => $card) {
 				$overlay = 'overlay';
+				if ($card->getColor() === 'red') {
+					$cardColor = "#cc0033";
+				} else {
+					$cardColor = "#000001";
+				}
 				echo "<div class = 'hand'>";
 				if ($key == 0) {
-					echo "<div class='outline shadow rounded'>
+					echo "<div class='outline shadow rounded' style='color: #000001;'>
 						  <div class='top'>&#63;&#63;</div>
 						  <h1>&#63;&#63;&#63;</h1>
 						  <div class='bottom'><br>&#63;&#63;</div>
 						  </div>";
 				} else {
-					echo "<div class='outline shadow rounded $overlay'>
+					echo "<div class='outline shadow rounded $overlay' style='color: $cardColor;'>
 					  <div class='top'>" . $card->getFace() . $card->getSuit() . "</div>
 					  <h1>" . $card->getSuit() . "</h1>
 					  <div class='bottom'><br>" . $card->getSuit() . $card->getFace() . "</div>
@@ -114,7 +129,12 @@ class Hand {
 				if ($key > 0) {
 					$overlay = 'overlay';
 				}
-				echo "<div class='outline shadow rounded $overlay'>
+				if ($card->getColor() === 'red') {
+					$cardColor = "#cc0033";
+				} else {
+					$cardColor = "#000001";
+				}
+				echo "<div class='outline shadow rounded $overlay' style='color: $cardColor;'>
 					  <div class='top'>" . $card->getFace() . $card->getSuit() . "</div>
 					  <h1>" . $card->getSuit() . "</h1>
 					  <div class='bottom'><br>" . $card->getSuit() . $card->getFace() . "</div>
