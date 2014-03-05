@@ -7,9 +7,6 @@ if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://codeu
 	session_start();
 }
 
-// var_dump($_POST);
-// var_dump($_SESSION);
-
 class diceHand {
 	public $displayDice = array(0, "&#9856;", "&#9857;", "&#9858;", "&#9859;", "&#9860;", "&#9861;");
 	public $dice;											// array that holds face values of dice
@@ -27,15 +24,15 @@ class diceHand {
 			$rollcount = 3;
 		}
 		if (!isset($_SESSION['count'])) {
-			$this->dice = array(0, 0, 0, 0, 0);				// array that holds face values of dice
-			$this->diceToReroll = array(0, 1, 2, 3, 4);		// array that will hold index of dice to reroll each turn
+			$this->dice = array(0, 0, 0, 0, 0);					// array that holds face values of dice
+			$this->diceToReroll = array(0, 1, 2, 3, 4);			// array that will hold index of dice to reroll each turn
 			$this->gameScore = 0;								// keeps track of score
 			$this->remainingOptions = array("Yahtzee", "Four of a Kind", "Full House", "Three of a Kind", "Large Straight", "Small Straight", 
 	"Chance");
 		}
 		elseif ($_SESSION['count'] === 3) {
-			$this->dice = array(0, 0, 0, 0, 0);				// array that holds face values of dice
-			$this->diceToReroll = array(0, 1, 2, 3, 4);		// array that will hold index of dice to reroll each turn
+			$this->dice = array(0, 0, 0, 0, 0);										// array that holds face values of dice
+			$this->diceToReroll = array(0, 1, 2, 3, 4);								// array that will hold index of dice to reroll each turn
 			$this->gameScore = $_SESSION['gamescore'];								// keeps track of score
 			$this->remainingOptions = $_SESSION['remaining'];
 			$this->remainingOptions = array_values($this->remainingOptions);
@@ -224,7 +221,6 @@ $_SESSION['remaining'] = $hand->remainingOptions;
 				<span class = 'die'><?= $hand->displayDice[$value] . " "; ?></span>
 			<?php endforeach ?>
 		<?php } ?>
-		<? //var_dump($hand->rollcount); ?>
 		<?php if ($hand->rollcount === 3): ?>
 			<form method="POST" action="">
 				<?php $hand->typeOfHand(); ?>
