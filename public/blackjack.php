@@ -10,7 +10,7 @@ if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://codeu
 }
 
 // create an array for suits
-$suits = ['C', 'H', 'S', 'D'];
+$suits = ['&clubs;', '&hearts;', '&spades;', '&diams;'];
 
 // create an array for cards
 $cards = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
@@ -88,22 +88,39 @@ class Hand {
 	}
 
 	public function displayHand($hidden = FALSE) {
+		$overlay = '';
 		if ($hidden) {
-			echo "<p>";
+			foreach ($this->hand as $key => $card) {
+				$overlay = 'overlay';
+				echo "<div class = 'hand'>";
+				if ($key == 0) {
+					echo "<div class='outline shadow rounded'>
+						  <div class='top'>&#63;&#63;</div>
+						  <h1>&#63;&#63;&#63;</h1>
+						  <div class='bottom'><br>&#63;&#63;</div>
+						  </div>";
+				} else {
+					echo "<div class='outline shadow rounded $overlay'>
+					  <div class='top'>" . $card->getFace() . $card->getSuit() . "</div>
+					  <h1>" . $card->getSuit() . "</h1>
+					  <div class='bottom'><br>" . $card->getSuit() . $card->getFace() . "</div>
+					  </div>";
+				}
+				echo "</div>";
+			}
+		} else {
+			echo "<div class = 'hand'>";
 			foreach ($this->hand as $key => $card) {
 				if ($key > 0) {
-					echo "[???] ";
-				} else {
-					echo "[{$card->getFace()} {$card->getSuit()}] ";
+					$overlay = 'overlay';
 				}
+				echo "<div class='outline shadow rounded $overlay'>
+					  <div class='top'>" . $card->getFace() . $card->getSuit() . "</div>
+					  <h1>" . $card->getSuit() . "</h1>
+					  <div class='bottom'><br>" . $card->getSuit() . $card->getFace() . "</div>
+					  </div>";
 			}
-			echo "</p>";
-		} else {
-			echo "<p>";
-			foreach ($this->hand as $key => $card) {
-				echo "[{$card->getFace()} {$card->getSuit()}] ";
-			}
-			echo "</p>";
+			echo "</div>";
 		}
 	}
 }
@@ -133,12 +150,12 @@ if (empty($player->hand) && empty($dealer->hand)) {
 	$deck->drawCard($dealer);
 }
 
-if (!isset($_POST['stay']) || $dealer->getScore() != 21) {
+if (!isset($_POST['stay'])) {
 	if (isset($_POST['hit']) && $_POST['hit'] === 'yes') {
 		$deck->drawCard($player);
 	}
 } else {
-	while ($dealer->getScore() < 17) {
+	while ($dealer->getScore() < 17 && ($dealer->getScore() < $player->getScore())) {
 		$deck->drawCard($dealer);
 	}
 }
@@ -204,17 +221,22 @@ $_SESSION['deck'] = $deck->fullDeck;
 	</div>
 	<hr />
 	<h1>Blackjack</h1>
-	<?php if ($dealer->getScore() >= 17 && ($player->getScore() === 21 || isset($_POST['stay']))) { ?>
+	<?php if ((($player->getScore() === 21 || $player->getScore() > 21) || isset($_POST['stay'])) || (isset($_SESSION['win']))) { ?>
 		<?php if ($dealer->getScore() > 21) { ?>
 			<h3>Player Wins! Dealer Busted!</h3>
+			<?php $_SESSION['win'] = TRUE; ?>
 		<?php } elseif ($player->getScore() > 21) { ?>
 			<h3>Dealer Wins! Player Busted!</h3>
+			<?php $_SESSION['win'] = TRUE; ?>
 		<?php } elseif ($dealer->getScore() > $player->getScore()) { ?>
 			<h3>Dealer Wins!</h3>
+			<?php $_SESSION['win'] = TRUE; ?>
 		<?php } elseif ($dealer->getScore() < $player->getScore()) { ?>
 			<h3>Player Wins!</h3>
+			<?php $_SESSION['win'] = TRUE; ?>
 		<?php } else { ?>
 			<h3>Dealer Wins!</h3>
+			<?php $_SESSION['win'] = TRUE; ?>
 		<?php } ?>
 		<h3>Dealer Hand <?= "Score: " . $dealer->getScore(); ?></h3>
 		<?php $dealer->displayHand(); ?>
@@ -223,9 +245,9 @@ $_SESSION['deck'] = $deck->fullDeck;
 		<?php $player->displayHand(); ?>
 		<br>
 		<form method="POST" action="">
-			<button name="playagain" type="submit" value="yes">Play Again</button>
+			<button name="playagain" type="submit" value="yes" autofocus="autofocus">Play Again</button>
 		</form>
-	<?php } elseif ($player->getScore() !== 21 || !isset($_POST['stay'])) { ?>
+	<?php } else { ?>
 		<h3>Dealer Hand <?= "Score: ??"; ?></h3>
 		<?php $dealer->displayHand(TRUE); ?>
 		<br>
@@ -233,7 +255,7 @@ $_SESSION['deck'] = $deck->fullDeck;
 		<?php $player->displayHand(); ?>
 		<br>
 		<form method="POST" action="">
-			<button name="hit" type="submit" value="yes">Hit</button>
+			<button name="hit" type="submit" value="yes" autofocus="autofocus">Hit</button>
 			<button name="stay" type="submit" value="yes">Stay</button>
 		</form>
 	<?php } ?>
