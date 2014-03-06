@@ -4,10 +4,10 @@ session_start();
 if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://codeup.dev/blackjack.php') {
 	session_destroy();
 	session_start();
-} elseif (isset($_POST['playagain'])) {
+} elseif (isset($_POST['restart']) || (isset($_POST['playagain']) && count($_SESSION['deck']) < 10)) {
 	session_destroy();
 	session_start();
-} elseif (isset($_POST['restart'])) {
+} elseif (isset($_POST['playagain'])) {
 	unset($_SESSION['player']);
 	unset($_SESSION['dealer']);
 	unset($_SESSION['win']);
@@ -179,7 +179,7 @@ $deck->shuffleDeck();
 $player = new Hand();
 $dealer = new Hand();
 
-if (isset($_SESSION['player']) && isset($_SESSION['dealer'])) {
+if (isset($_SESSION['deck'])) {
 	$player->hand = $_SESSION['player'];
 	$dealer->hand = $_SESSION['dealer'];
 	$deck->fullDeck = $_SESSION['deck'];
@@ -265,6 +265,7 @@ $_SESSION['deck'] = $deck->fullDeck;
 	</div>
 	<hr />
 	<h1>Blackjack</h1>
+	<?php $hide = TRUE; ?>
 	<?php if ((($player->getScore() === 21 || $player->getScore() > 21) || isset($_POST['stay'])) || (isset($_SESSION['win']))) { ?>
 		<?php if ($dealer->getScore() > 21) { ?>
 			<h3>Player Wins! Dealer Busted!</h3>
@@ -282,33 +283,25 @@ $_SESSION['deck'] = $deck->fullDeck;
 			<h3>Dealer Wins!</h3>
 			<?php $_SESSION['win'] = TRUE; ?>
 		<?php } ?>
-		<h3>Dealer Hand <?= "Score: " . $dealer->getScore(); ?></h3>
-		<?php $dealer->displayHand(); ?>
-		<br>
-		<h3>Player Hand <?= "Score: " . $player->getScore(); ?></h3>
-		<?php $player->displayHand(); ?>
-		<br>
-		<div class="deck">
-			<h3>Deck <?= "Card Count: " . count($deck->fullDeck); ?></h3>
-			<?php $deck->displayDeck(); ?>
-		</div>
-		<br>
+		<?php $hide = FALSE; ?>
+	<?php } ?>
+	<h3>Dealer Hand <?= "Score: " . $dealer->getScore(); ?></h3>
+	<?php $dealer->displayHand($hide); ?>
+	<br>
+	<h3>Player Hand <?= "Score: " . $player->getScore(); ?></h3>
+	<?php $player->displayHand(); ?>
+	<br>
+	<div class="deck">
+		<h3>Deck <?= "Card Count: " . count($deck->fullDeck); ?></h3>
+		<?php $deck->displayDeck(); ?>
+	</div>
+	<br>
+	<?php if ((($player->getScore() === 21 || $player->getScore() > 21) || isset($_POST['stay'])) || (isset($_SESSION['win']))) { ?>
 		<form method="POST" action="">
 			<button name="playagain" type="submit" value="yes" autofocus="autofocus">Play Again</button>
 			<button name="restart" type="submit" value="yes">Restart Game</button>
 		</form>
 	<?php } else { ?>
-		<h3>Dealer Hand <?= "Score: ??"; ?></h3>
-		<?php $dealer->displayHand(TRUE); ?>
-		<br>
-		<h3>Player Hand <?= "Score: " . $player->getScore(); ?></h3>
-		<?php $player->displayHand(); ?>
-		<br>
-		<div class="deck">
-			<h3>Deck <?= "Card Count: " . count($deck->fullDeck); ?></h3>
-			<?php $deck->displayDeck(); ?>
-		</div>
-		<br>
 		<form method="POST" action="">
 			<button name="hit" type="submit" value="yes" autofocus="autofocus">Hit</button>
 			<button name="stay" type="submit" value="yes">Stay</button>
