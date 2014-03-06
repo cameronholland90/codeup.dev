@@ -1,0 +1,48 @@
+#fancy-header{
+	text-decoration: underline;
+	color: ;
+}
+
+#first {
+	background-color: #F00;
+}
+
+#second {
+	background-color: #FFA500;
+	margin-left: 30px;
+}
+
+#third {
+	background-color: #FF0;
+	margin-left: 60px;
+}
+
+#fourth {
+	background-color: #00AA00;
+	margin-left: 90px;
+}
+
+#fifth {
+	background-color: #00F;
+	margin-left: 120px;
+}
+
+#sixth {
+	background-color: #dda0dd;
+	margin-left: 150px;
+}
+
+div {
+	border: solid 1px #000;
+	height: 50px;
+	width: 150px;
+	margin: 10px 0px;
+	color: #FFF;
+	padding: 10px;
+	transition: all 0.5s ease-in-out;
+}
+
+div:hover {
+	padding: 10px 100px 10px 10px;
+}
+
