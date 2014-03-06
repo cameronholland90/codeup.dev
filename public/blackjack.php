@@ -7,6 +7,10 @@ if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://codeu
 } elseif (isset($_POST['playagain'])) {
 	session_destroy();
 	session_start();
+} elseif (isset($_POST['restart'])) {
+	unset($_SESSION['player']);
+	unset($_SESSION['dealer']);
+	unset($_SESSION['win']);
 }
 
 // create an array for suits
@@ -74,6 +78,24 @@ class Deck {
 
 	public function shuffleDeck() {
 		shuffle($this->fullDeck);
+	}
+
+	public function displayDeck() {
+		foreach ($this->fullDeck as $key => $card) {
+			if ($key === 0) {
+				echo "<div class='outline shadow rounded' style='color: #000001;'>
+					  <div class='top'>&#63;&#63;</div>
+					  <h1>&#63;&#63;&#63;</h1>
+					  <div class='bottom'><br>&#63;&#63;</div>
+					  </div>";
+			} else {
+				echo "<div class='outline shadow rounded deckoverlay' style='color: #000001;'>
+					  <div class='top'>&#63;&#63;</div>
+					  <h1>&#63;&#63;&#63;</h1>
+					  <div class='bottom'><br>&#63;&#63;</div>
+					  </div>";
+			}
+		}
 	}
 }
 
@@ -213,6 +235,7 @@ $_SESSION['deck'] = $deck->fullDeck;
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="../">Codeup.dev</a></li>
 						<li><a href="../hello-world.html">Profile</a></li>
+						<li><a href="https://github.com/cameronholland90">GitHub</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Social Media <b class="caret"></b></a>
 							<ul class="dropdown-menu">
@@ -265,8 +288,14 @@ $_SESSION['deck'] = $deck->fullDeck;
 		<h3>Player Hand <?= "Score: " . $player->getScore(); ?></h3>
 		<?php $player->displayHand(); ?>
 		<br>
+		<div class="deck">
+			<h3>Deck <?= "Card Count: " . count($deck->fullDeck); ?></h3>
+			<?php $deck->displayDeck(); ?>
+		</div>
+		<br>
 		<form method="POST" action="">
 			<button name="playagain" type="submit" value="yes" autofocus="autofocus">Play Again</button>
+			<button name="restart" type="submit" value="yes">Restart Game</button>
 		</form>
 	<?php } else { ?>
 		<h3>Dealer Hand <?= "Score: ??"; ?></h3>
@@ -274,6 +303,11 @@ $_SESSION['deck'] = $deck->fullDeck;
 		<br>
 		<h3>Player Hand <?= "Score: " . $player->getScore(); ?></h3>
 		<?php $player->displayHand(); ?>
+		<br>
+		<div class="deck">
+			<h3>Deck <?= "Card Count: " . count($deck->fullDeck); ?></h3>
+			<?php $deck->displayDeck(); ?>
+		</div>
 		<br>
 		<form method="POST" action="">
 			<button name="hit" type="submit" value="yes" autofocus="autofocus">Hit</button>

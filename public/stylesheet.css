@@ -88,6 +88,15 @@
 	margin-left: -75px;
 }
 
+.deckoverlay {
+	margin-left: -118px;
+}
+
+.deck {
+	float: right;
+	display: inline-block;
+}
+
 input, textarea {
   outline: none;
 }

@@ -170,6 +170,7 @@ $_SESSION['remaining'] = $hand->remainingOptions;
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="../">Codeup.dev</a></li>
 						<li><a href="../hello-world.html">Profile</a></li>
+						<li><a href="https://github.com/cameronholland90">GitHub</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Social Media <b class="caret"></b></a>
 							<ul class="dropdown-menu">
@@ -182,10 +183,10 @@ $_SESSION['remaining'] = $hand->remainingOptions;
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects<b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="todo-list.php">To Do List</a></li>
-								<li><a href="address_book.php">Address Book</a></li>
-								<li><a href="yahtzee.php">Yahtzee</a></li>
-								<li><a href="blackjack.php">Blackjack</a></li>
+								<li><a href="/todo-list.php">To Do List</a></li>
+								<li><a href="/address_book.php">Address Book</a></li>
+								<li><a href="/yahtzee.php">Yahtzee</a></li>
+								<li><a href="/blackjack.php">Blackjack</a></li>
 							</ul>
 						</li>
 					</ul>
