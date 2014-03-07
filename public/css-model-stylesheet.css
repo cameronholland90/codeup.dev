@@ -4,45 +4,71 @@
 }
 
 #first {
+	margin-left: 0px;
 	background-color: #F00;
+	position: relative;
+	float: left;
 }
 
 #second {
 	background-color: #FFA500;
-	margin-left: 30px;
+	position: relative;
+	float: left;
 }
 
 #third {
 	background-color: #FF0;
-	margin-left: 60px;
+	position: relative;
+	float: left;
 }
 
 #fourth {
+	margin-left: 0px;
 	background-color: #00AA00;
-	margin-left: 90px;
+	position: relative;
+	clear: left;
+	float: left;
 }
 
 #fifth {
 	background-color: #00F;
-	margin-left: 120px;
+	position: relative;
+	float: left;
 }
 
 #sixth {
 	background-color: #dda0dd;
-	margin-left: 150px;
+	position: relative;
+	float: left;
 }
 
 div {
 	border: solid 1px #000;
-	height: 50px;
-	width: 150px;
-	margin: 10px 0px;
+	height: 72px;
+	width: 72px;
+	margin: 0px 25px 50px;
 	color: #FFF;
 	padding: 10px;
+	box-shadow: 1px 1px 3px #000;
 	transition: all 0.5s ease-in-out;
+}
+
+.arrow {
+	position: absolute;
+	bottom: 80px;
+	left: 75px;
+}
+
+.ribbon	{
+	position: fixed;
+	top: 0px;
+	right: 0px;
 }
 
 div:hover {
 	padding: 10px 100px 10px 10px;
 }
 
+h1 {
+	margin-bottom: 50px;
+}
