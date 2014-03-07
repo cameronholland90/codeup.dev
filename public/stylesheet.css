@@ -51,6 +51,8 @@
 
 .hand {
 	display: inline-block;
+	float: left;
+	margin-left: 80px;
 }
 
 .outline { 
@@ -61,6 +63,33 @@
 	margin: 10px; 
 	background: #FFF;
 	float: left;
+	transition: all 0.5s ease-in-out;
+}
+
+.rotate{
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+     
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+     
+    overflow:hidden;
+ 
+    }  
+ 
+.rotate:hover  
+{
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg);
+    -o-transform:rotate(360deg);
+} 
+
+.cardback {
+	padding: 2px;
 }
 
 .top { 
@@ -93,8 +122,18 @@
 }
 
 .deck {
-	float: right;
+	float: left;
 	display: inline-block;
+	margin-left: 80px;
+}
+
+.userstuff {
+	margin-left: 100px;
+}
+
+.boardrow {
+	display: inline-block;
+	width: 100%;
 }
 
 input, textarea {

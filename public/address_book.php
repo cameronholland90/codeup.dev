@@ -124,42 +124,56 @@
 						<? foreach ($address as $item) : ?>
 							<td><?= htmlspecialchars(strip_tags($item)) ?></td>
 						<? endforeach; ?>
-						<td><?= "<a href='/address_book.php?remove=$key'>&#10008;</a>"; ?></td>
+						<td><?= "<a href='/address_book.php?remove=$key'><span class='glyphicon glyphicon-trash'></span></a>"; ?></td>
 					<? endif; ?>
 				</tr>
 			<? endforeach; ?>
 		</table>
-		<form method = "POST" action = "">
+		<form class="form-horizontal" method = "POST" action = "">
 			<h3>Add a new address:</h3>
 			<p><?= $book->errorMessage; ?></p>
-			<p>
-		        <label for="name">* Name: </label>
-		        <input id="name" name="name" type="text" autofocus = "autofocus" placeholder="Name" required>
-		    </p>
-		    <p>
-		        <label for="address">* Address: </label>
-		        <input id="address" name="address" type="text" placeholder="Address" required>
-		    </p>
-		    <p>
-		        <label for="city">* City: </label>
-		        <input id="city" name="city" type="text" placeholder="City" required>
-		    </p>
-		    <p>
-		        <label for="state">* State: </label>
-		        <input id="state" name="state" type="text" placeholder="State" required>
-		    </p>
-		    <p>
-		        <label for="zip">* Zip: </label>
-		        <input id="zip" name="zip" type="text" placeholder="Zip" required>
-		    </p>
-		    <p>
-		        <label for="phone">Phone: </label>
-		        <input id="phone" name="phone" type="text" placeholder="Phone">
-		    </p>
-		    <p>* = required</p>
-		    <p>
-		        <button type="submit">Add</button>
-		    </p>
+			<div class='form-group'>
+		        <label class="col-sm-2 control-label" for="name">* Name: </label>
+		        <div class="col-sm-10">
+		        	<input class="form-control" id="name" name="name" type="text" autofocus = "autofocus" placeholder="Name" required>
+		    	</div>
+		    </div>
+		    <div class='form-group'>
+		        <label class="col-sm-2 control-label" for="address">* Address: </label>
+		        <div class="col-sm-10">
+		        	<input class="form-control" id="address" name="address" type="text" placeholder="Address" required>
+		    	</div>
+		    </div>
+		    <div class='form-group'>
+		        <label class="col-sm-2 control-label" for="city">* City: </label>
+		        <div class="col-sm-10">
+		        	<input class="form-control" id="city" name="city" type="text" placeholder="City" required>
+		    	</div>
+		    </div>
+		    <div class='form-group'>
+		        <label class="col-sm-2 control-label" for="state">* State: </label>
+		        <div class="col-sm-10">
+		        	<input class="form-control" id="state" name="state" type="text" placeholder="State" required>
+		    	</div>
+		    </div>
+		    <div class='form-group'>
+		        <label class="col-sm-2 control-label" for="zip">* Zip: </label>
+		        <div class="col-sm-10">
+		        	<input class="form-control" id="zip" name="zip" type="text" placeholder="Zip" required>
+		    	</div>
+		    </div>
+		    <div class='form-group'>
+		        <label class="col-sm-2 control-label" for="phone">Phone: </label>
+		        <div class="col-sm-10">
+		        	<input class="form-control" id="phone" name="phone" type="text" placeholder="Phone">
+		    	</div>
+		    </div>
+		    <div class='form-group'>
+		    	<label class="col-sm-2 control-label" for="phone">* = required </label>
+		    	<div class="col-sm-10">
+		        	<button class="btn btn-default" type="submit">Add</button>
+		    	</div>
+		    </div>
 		</form>
 		<br>
 		<form method = "POST" enctype="multipart/form-data" action = "">
@@ -173,7 +187,7 @@
 				</label>
 			</p>
 		    <p>
-		        <button type="submit">Submit</button>
+		        <button type="submit">Upload</button>
 		    </p>
 		</form>
 	</body>
