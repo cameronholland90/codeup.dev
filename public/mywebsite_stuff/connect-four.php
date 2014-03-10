@@ -2,7 +2,7 @@
 
 session_start();
 
-if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://codeup.dev/mywebsite_stuff/connect-four.php') {
+if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://cameronholland.me/connect-four.php') {
 	session_destroy();
 	session_start();
 } elseif(isset($_POST['playagain'])) {
@@ -140,10 +140,13 @@ class Board {
 	}
 
 	public function playerColor() {
+		if ($_SESSION['win']) {
+			$this->turnCount-=1;
+		}
 		if ($this->turnCount%2 === 0) {
-			return 'BLACK';
-		} else {
 			return 'RED';
+		} else {
+			return 'BLACK';
 		}
 	}
 }
