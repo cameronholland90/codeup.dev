@@ -42,10 +42,10 @@ class Board {
 			}
 		}
 
-		if (!empty($temp) && ($this->turnCount%2 === 0)) {
+		if (is_numeric($temp) && ($this->turnCount%2 === 0)) {
 			$this->gameboard[$temp][$col] = $this->redgamepiece;
 			$this->turnCount++;
-		} elseif (!empty($temp) && ($this->turnCount%2 === 1)) {
+		} elseif (is_numeric($temp) && ($this->turnCount%2 === 1)) {
 			$this->gameboard[$temp][$col] = $this->blackgamepiece;
 			$this->turnCount++;
 		}
