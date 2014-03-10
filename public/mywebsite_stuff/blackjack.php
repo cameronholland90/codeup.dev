@@ -222,6 +222,7 @@ if (!isset($_POST['stay'])) {
 								<!-- <li><a href="address_book.php">Address Book</a></li> -->
 								<li><a href="yahtzee.php">Yahtzee</a></li>
 								<li><a href="blackjack.php">Blackjack</a></li>
+								<li><a href="connect-four.php">Connect Four</a></li>
 							</ul>
 						</li>
 					</ul>
