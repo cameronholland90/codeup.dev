@@ -4,7 +4,7 @@ session_start();
 if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://codeup.dev/blackjack.php') {
 	session_destroy();
 	session_start();
-} elseif (isset($_POST['restart']) || (isset($_POST['playagain']) && count($_SESSION['deck']->fullDeck) < 10)) {
+} elseif (isset($_POST['restart']) || ((isset($_POST['playagain']) && count($_SESSION['deck']->fullDeck)) < 10)) {
 	session_destroy();
 	session_start();
 } elseif (isset($_POST['playagain'])) {
@@ -64,10 +64,10 @@ class Card {
 class Deck {
 	public $fullDeck = array();
 	// create an array for suits
-	public $suits = ['&clubs;', '&hearts;', '&spades;', '&diams;'];
+	public $suits = array('&clubs;', '&hearts;', '&spades;', '&diams;');
 
 	// create an array for cards
-	public $cards = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+	public $cards = array('A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K');
 
 	public function __construct() {
 	}
@@ -85,9 +85,9 @@ class Deck {
 	public function displayDeck() {
 		foreach ($this->fullDeck as $key => $card) {
 			if ($key === 0) {
-				echo "<img class='outline shadow rounded cardback rotate' src='img/music-card-back.jpg'/>";
+				echo "<img class='outline shadow rounded cardback' src='img/music-card-back.jpg'/>";
 			} else {
-				echo "<img class='outline shadow rounded deckoverlay cardback rotate' src='img/music-card-back.jpg'/>";
+				echo "<img class='outline shadow rounded deckoverlay cardback' src='img/music-card-back.jpg'/>";
 			}
 		}
 	}
@@ -96,11 +96,9 @@ class Deck {
 class Hand {
 	public $hand = array();
 
-	public function __construct($split = FALSE) {
-		if (!$split) {
-			$_SESSION['deck']->drawCard($this);
-			$_SESSION['deck']->drawCard($this);
-		}
+	public function __construct() {
+		$_SESSION['deck']->drawCard($this);
+		$_SESSION['deck']->drawCard($this);
 	}
 
 	public function getScore($hidden = FALSE) {
@@ -120,11 +118,6 @@ class Hand {
 	  	return $total;
 	}
 
-	public function split() {
-		array_push($_SESSION['player2']->hand, $this->hand[1]);
-		unset($this->hand[1]);
-	}
-
 	public function displayHand($hidden = FALSE) {
 		$overlay = '';
 		if ($hidden) {
@@ -136,9 +129,9 @@ class Hand {
 					$cardColor = "#000001";
 				}	
 				if ($key == 0) {
-					echo "<img class='outline shadow rounded cardback rotate' src='img/music-card-back.jpg'/>";
+					echo "<img class='outline shadow rounded cardback' src='img/music-card-back.jpg'/>";
 				} else {
-					echo "<div class='outline shadow rounded $overlay rotate' style='color: $cardColor;'>
+					echo "<div class='outline shadow rounded $overlay' style='color: $cardColor;'>
 					  <div class='top'>" . $card->getFace() . $card->getSuit() . "</div>
 					  <h1>" . $card->getSuit() . "</h1>
 					  <div class='bottom'><br>" . $card->getSuit() . $card->getFace() . "</div>
@@ -155,7 +148,7 @@ class Hand {
 				} else {
 					$cardColor = "#000001";
 				}
-				echo "<div class='outline shadow rounded $overlay rotate' style='color: $cardColor;'>
+				echo "<div class='outline shadow rounded $overlay' style='color: $cardColor;'>
 					  <div class='top'>" . $card->getFace() . $card->getSuit() . "</div>
 					  <h1>" . $card->getSuit() . "</h1>
 					  <div class='bottom'><br>" . $card->getSuit() . $card->getFace() . "</div>

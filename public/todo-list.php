@@ -54,6 +54,8 @@
 	    }
 	}
 
+	$todo->write($todolist);
+	$todolist = $todo->read();
 
 ?>
 
