@@ -36,7 +36,7 @@
         // todo: set text color of li with dbid = 1 to blue
         for (var i = 0; i < listItems.length; i++) {
             var dbId = listItems[i].attributes['data-dbid'].value;
-            if (dbId === '1') {
+            if (dbId%2 === 1) {
                 listItems[i].style['color'] = 'grey';
             } else {
                 listItems[i].style['color'] = 'blue';
