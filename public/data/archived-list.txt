@@ -6,3 +6,8 @@ work with sessions on html pages for php game
 look into twitter bootstrap classes
 work on yahtzee
 show todo
+add split and double for blackjack
+work on linkedin profile
+make blackjack a web app
+Add more styling to webpages
+test
