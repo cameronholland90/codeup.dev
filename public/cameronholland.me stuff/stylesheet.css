@@ -1,0 +1,48 @@
+/*blackjack*/
+.outline { 
+	width: 110px; 
+	height: 154px;
+	text-align: center; 
+	padding: 10px; 
+	margin: 10px; 
+	background: #FFF;
+	float: left;
+}
+
+.cardback {
+	padding: 2px;
+}
+
+.top { 
+	height: 30px;
+	text-align: left; 
+}
+
+.bottom { 
+	text-align: right; 
+}
+
+.shadow { 
+	box-shadow: 1px 1px 3px #000; 
+	-moz-box-shadow: 1px 1px 3px #000; 
+	-webkit-box-shadow: 1px 1px 3px #000; 
+}
+
+.rounded { 
+	border-radius:10px; 
+	-moz-border-radius:10px; 
+	-webkit-border-radius:10px; 
+}
+
+.overlay {
+	margin-left: -75px;
+}
+
+.deckoverlay {
+	margin-left: -118px;
+}
+
+/*yahtzee*/
+.die {
+	font-size: 100px;
+}

@@ -1,0 +1,97 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Revalia' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="css/carousel.css"/>
+	<link rel="shortcut icon" href="img/Arches v2-6.jpg" />	<title>Portfolio</title>
+</head>
+<body>
+	<!-- navbar -->
+	<div id="navbar" class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="row">
+				<div class="navbar-header">
+					<a href="/" class="navbar-brand">CameronHolland.me</a>
+					<button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse navHeaderCollapse nav-pills">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/">Resume</a></li>
+						<li class='active'><a href="portfolio.html">Portfolio</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects<b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<!-- <li><a href="todo-list.php">To Do List</a></li> -->
+								<!-- <li><a href="address_book.php">Address Book</a></li> -->
+								<li><a href="yahtzee.php">Yahtzee</a></li>
+								<li><a href="blackjack.php">Blackjack</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end navbar -->
+
+	<div class='container' style='color: rgb(192, 192, 192);background-color: #222; border-radius: 10px; padding: 50px; margin-top: 100px;'>
+		<div class="page-header" style="margin-top: 0px;">
+			<h1>Cameron Holland <small>My Portfolio</small></h1>
+		</div>
+		<div class='row'>
+			<div class='col-md-6'>
+				<img class='img-responsive' alt="Blackjack Web App" src="img/Blackjack.png" style="display: inline-block; padding: 5px; background-color: #555; border: solid #000 2px;" />
+			</div>
+			<div class='col-md-6' style='vertical-align: center;'>
+				<h3><strong>BLACKJACK</strong></h3>
+				<h4>or 21</h4>
+				<p>Web application for the card game Blackjack written in php during my enrollment in Codeup's LAMP+J Bootcamp</p>
+				<a href="blackjack.php" class="btn btn-success btn-md" role="button">Blackjack</a>
+			</div>
+		</div>
+		<hr>
+		<div class='row'>
+			<div class='col-md-3'>
+				<img class='img-responsive' src="img/Yahtzee.png" alt='Yahtzee Web App' style="padding: 3px; background-color: #555; border: solid #000 2px; display: inline-block;">
+			</div>
+			<div class='col-md-9'>
+				<h4><strong>YAHTZEE</strong></h4>
+				<p>Web application for the dice game Yahtzee written in php during my enrollment in Codeup's LAMP+J Bootcamp</p>
+				<a href="yahtzee.php" class='btn btn-success btn-sm'>Yahtzee</a>
+			</div>
+		</div>
+		<br>
+		<div class='row'>
+			<div class='col-md-3'>
+				<img class='img-responsive' src="img/todo-list.png" alt='Todo List Web App' style="padding: 3px; background-color: #555; border: solid #000 2px; display: inline-block;">
+			</div>
+			<div class='col-md-9'>
+				<h4><strong>TODO LIST</strong></h4>
+				<p>Todo list web application. Will have link working once I update it to allow any visitor to the page have a login with a todo list file for their login information</p>
+				<a href="todo-list.php" class='btn btn-success btn-sm' disabled='disabled'>Todo List</a>
+			</div>
+		</div>
+		<br>
+		<div class='row'>
+			<div class='col-md-3'>
+				<img class='img-responsive' src="img/address-book.png" alt='Address Book Web App' style="padding: 3px; background-color: #555; border: solid #000 2px; display: inline-block;">
+			</div>
+			<div class='col-md-9'>
+				<h4><strong>ADDRESS BOOK</strong></h4>
+				<p>Address book web application written with php. Will have link working when it works with login info like the todo web application</p>
+				<a href="address_book.php" class='btn btn-success btn-sm' disabled='disabled'>Address Book</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
