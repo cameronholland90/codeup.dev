@@ -19,6 +19,7 @@
     <button id='btn2'>Change Subheader Color</button>
     <button id='btn3'>Change list colors</button>
     <button id='btn4'>Change paragraph</button>
+    <button id='btn5'>Reload Page</button>
 
     <script>
 
@@ -63,6 +64,10 @@
             subParagraphs[0].innerHTML = 'Mission Accomplished!';
         }
 
+        function refreshButton() {
+            window.location = window.location.href
+        }
+
         var btn1 = document.getElementById('btn1');
         btn1.addEventListener('click', firstButton, false);
 
@@ -74,6 +79,9 @@
 
         var btn4 = document.getElementById('btn4');
         btn4.addEventListener('click', fourthButton, false);
+
+        var btn5 = document.getElementById('btn5');
+        btn5.addEventListener('click', refreshButton, false);
 
 
     </script>
