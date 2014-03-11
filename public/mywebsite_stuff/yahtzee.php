@@ -2,7 +2,7 @@
 
 session_start();
 
-if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://cameronholland.me/yahtzee.php') {
+if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://codeup.dev/mywebsite_stuff/yahtzee.php') {
 	session_destroy();
 	session_start();
 }
