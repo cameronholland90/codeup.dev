@@ -75,12 +75,14 @@ $parks = $_SESSION['tableData']->getQuerySet();
 		<table class='table table-bordered table-striped'>
 			<thead>
 				<tr>
-					<?= "<th class='col-md-1'><a href='/mywebsite_stuff/mysqli-national-parks.php?organize=name'>NAME</a></th><th class='col-md-1'><a href='/mywebsite_stuff/mysqli-national-parks.php?organize=location'>LOCATION</a></th><th class='col-md-2'><a href='/mywebsite_stuff/mysqli-national-parks.php?organize=date_established'>DATE ESTABLISHED</a></th><th class='col-md-1'><a href='/mywebsite_stuff/mysqli-national-parks.php?organize=area_in_acres'>AREA</a></th><th class='col-md-7'>DESCRIPTION</th>"; ?>
+					<?= "<th class='col-md-1'><a href='/mywebsite_stuff/mysqli-national-parks.php?organize=name'>NAME</a></th>
+
+					<th class='col-md-1'><a href='/mywebsite_stuff/mysqli-national-parks.php?organize=location'>LOCATION</a></th><th class='col-md-2'><a href='/mywebsite_stuff/mysqli-national-parks.php?organize=date_established'>DATE ESTABLISHED</a></th><th class='col-md-1'><a href='/mywebsite_stuff/mysqli-national-parks.php?organize=area_in_acres'>AREA</a></th><th class='col-md-7'>DESCRIPTION</th>"; ?>
 				</tr>
 			</thead>
 			<?php foreach ($parks as $park) { ?>
 				<?= "<tr>"; ?>
-					<?= "<td>{$park['name']}</td><td>{$park['location']}</td><td>{$park['date_established']}</td><td>{$park['area_in_acres']} acres</td><td>{$park['description']}</td>"; ?>
+					<?= "<td>{$park['name']}</td><td>{$park['location']}</td><td>{$park['date_established']}</td><td> ". number_format($park['area_in_acres'], 2, '.', ',') . " acres</td><td>{$park['description']}</td>"; ?>
 				<?= "</tr>"; ?>
 			<?php } ?>
 		</table>
