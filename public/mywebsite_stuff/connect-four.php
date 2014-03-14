@@ -1,7 +1,8 @@
 <?php
-
+// starts session for game
 session_start();
 
+// destroys the session if the user comes from a different webpage or if they have pressed the playagain button at the end of the game
 if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://codeup.dev/mywebsite_stuff/connect-four.php') {
 	session_destroy();
 	session_start();
@@ -10,38 +11,46 @@ if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://codeu
 	session_start();
 }
 
+// object that holds all the info for the game
 class Board {
 	public $gameboard;											// array for gameboard
 	public $blackgamepiece = 'img/black-connect-four.jpg';		// holds image location for a spot holding a black game piece
 	public $redgamepiece = 'img/red-connect-four.jpg';			// holds image location for a spot holding a red game piece
 	public $blanklocation = 'img/empty-connect-four.jpg';		// holds image location for a spot that does not have a game piece
-	public $turnCount = 1;
+	public $turnCount = 1;										// keeps track of what turn it is, odd turns are black's turn and even are red's
 
+	// constructs an empty board when an instance of Board is created
 	public function __construct() {
 		$this->gameboard = array();
-		for ($i=0; $i < 6; $i++) { 
+		for ($i=0; $i < 6; $i++) { 		// loops through six times giving the board a 6 row board and 7 columns
 			$this->gameboard[] = array($this->blanklocation, $this->blanklocation, $this->blanklocation, $this->blanklocation, $this->blanklocation, $this->blanklocation, $this->blanklocation);
 		}
 	}
 
+	// function that displays the board in html
 	public function displayBoard() {
 		foreach ($this->gameboard as $ycoord => $row) {
+			// creates div for each row
 			echo "<div class='row'>";
 			foreach ($row as $xcoord => $location) {
+				// in each row this makes 7 divs for each column
 				echo "<div class='col-md-1' style='padding: 0px 3px;'><img class='img-responsive' src='{$location}' /></div>";
 			}
 			echo "</div>";
 		}
 	}
 
+	// function that places each users piece in the appropriate row for the column they selected
 	public function placePiece($col) {
 		$temp = '';
+		// finds the lowest position for the users piece to drop to
 		foreach ($this->gameboard as $key => $row) {
 			if ($row[$col] === 'img/empty-connect-four.jpg') {
 				$temp = $key;
 			}
 		}
 
+		// checks to make sure the location is numberic or it will not increase the turn count or place a piece
 		if (is_numeric($temp) && ($this->turnCount%2 === 0)) {
 			$this->gameboard[$temp][$col] = $this->redgamepiece;
 			$this->turnCount++;
@@ -51,21 +60,23 @@ class Board {
 		}
 	}
 
+	// checks to see if there is a win on the board by calling each direction's function
 	public function checkForWin() {
 		$win = FALSE;
+		// iterates through every location on the board and only checks the ones that are not empty
 		foreach ($this->gameboard as $rownum => $row) {
 			foreach ($row as $colnum => $location) {
 				if ($location !== $this->blanklocation) {
-					if ($this->checkDiaganalLeft()) {
+					if ($this->checkDiagonalBottomToTop()) {			// calls the function for checking for diagonal wins and if it returns true, it returns true and sets the session variable to true
 						$_SESSION['win'] = TRUE;
 						return TRUE;
-					} elseif ($this->checkVertical()) {
+					} elseif ($this->checkVertical()) {					// calls the function for checking for vertical wins and if it returns true, it returns true and sets the session variable to true
 						$_SESSION['win'] = TRUE;
 						return TRUE;
-					} elseif ($this->checkHorizontal()) {
+					} elseif ($this->checkHorizontal()) {				// calls the function for checking for horizontal wins and if it returns true, it returns true and sets the session variable to true
 						$_SESSION['win'] = TRUE;
 						return TRUE;
-					} elseif ($this->checkDiaganalRight()) {
+					} elseif ($this->checkDiagonalTopToBottom()) {		// calls the function for checking for diagonal wins and if it returns true, it returns true and sets the session variable to true
 						$_SESSION['win'] = TRUE;
 						return TRUE;
 					}
@@ -75,6 +86,7 @@ class Board {
 		return $win;
 	}
 
+	// function for checking for horizontal wins and if it finds one it returns true
 	public function checkHorizontal() {
 		foreach ($this->gameboard as $rownum => $row) {
 			foreach ($row as $colnum => $location) {
@@ -90,6 +102,7 @@ class Board {
 		return FALSE;
 	}
 
+	// function for checking for vertical wins and if it finds one it returns true
 	public function checkVertical() {
 		foreach ($this->gameboard as $rownum => $row) {
 			foreach ($row as $colnum => $location) {
@@ -105,7 +118,8 @@ class Board {
 		return FALSE;
 	}
 
-	public function checkDiaganalRight() {
+	// function for checking for diagonal(going from top to bottom) wins and if it finds one it returns true
+	public function checkDiagonalTopToBottom() {
 		foreach ($this->gameboard as $rownum => $row) {
 			foreach ($row as $colnum => $location) {
 				if ($location !== $this->blanklocation) {
@@ -122,7 +136,8 @@ class Board {
 		return FALSE;
 	}
 
-	public function checkDiaganalLeft() {
+	// function for checking for diagonal(going from bottom to top) wins and if it finds one it returns true
+	public function checkDiagonalBottomToTop() {
 		foreach ($this->gameboard as $rownum => $row) {
 			foreach ($row as $colnum => $location) {
 				if ($location !== $this->blanklocation) {
@@ -139,8 +154,9 @@ class Board {
 		return FALSE;
 	}
 
+	// function that returns who's turn it is based on what turn number it is. also if a player has won it returns who won
 	public function playerColor() {
-		if (isset($_SESSION['win'])) {
+		if ($_SESSION['win']) {
 			$this->turnCount-=1;
 		}
 		if ($this->turnCount%2 === 0) {
@@ -151,10 +167,12 @@ class Board {
 	}
 }
 
+// sets up a new instance of board if one has not been created
 if (empty($_SESSION['gameboard'])) {
 	$_SESSION['gameboard'] = new Board();
 }
 
+// if the user has selected a column to place their game piece
 if (isset($_GET['drop']) && is_numeric($_GET['drop'])) {
 	$_SESSION['gameboard']->placePiece($_GET['drop']);
 	header("Location: connect-four.php");
@@ -209,8 +227,8 @@ if (isset($_GET['drop']) && is_numeric($_GET['drop'])) {
 	</div>
 	<!-- end navbar -->
 
-	<div class='container' style='color: rgb(192, 192, 192);background-color: #222; border-radius: 10px; padding: 50px; margin-top: 100px;'>
-		<div class="page-header" style="margin-top: 0px;">
+	<div class='container main-container'>
+		<div class="page-header">
 			<h1>Connect Four <small>Coded by Cameron Holland</small></h1>
 		</div>
 		<?php if (!($_SESSION['gameboard']->checkForWin())) { ?>

@@ -15,15 +15,8 @@ if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://codeu
 	unset($_SESSION['win']);
 }
 
-
 if (!isset($_SESSION['deck'])) {
 	$_SESSION['deck'] = new Deck();
-	foreach ($_SESSION['deck']->suits as $suit) {
-		foreach ($_SESSION['deck']->cards as $card) {
-			$_SESSION['deck']->fullDeck[] = new Card($card, $suit);
-		}
-	}
-	$_SESSION['deck']->shuffleDeck();
 }
 
 if (!isset($_SESSION['player']) && !isset($_SESSION['dealer'])) {
@@ -88,8 +81,8 @@ if (!isset($_POST['stay'])) {
 		</div>
 	</div>
 	<!-- end navbar -->
-	<div class='container' style='color: rgb(192, 192, 192);background-color: #222; border-radius: 10px; padding: 50px; margin-top: 100px;'>
-		<div class="page-header" style="margin-top: 0px;">
+	<div class='container main-container'>
+		<div class="page-header">
 			<h1>Blackjack <small>Coded by Cameron Holland</small></h1>
 		</div>
 		<?php $hide = TRUE; ?>

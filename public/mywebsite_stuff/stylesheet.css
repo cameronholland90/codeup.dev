@@ -1,3 +1,12 @@
+/*website structure*/
+.main-container {
+	color: rgb(192, 192, 192);
+	background-color: #222; 
+	border-radius: 10px; 
+	padding: 50px; 
+	margin-top: 100px;
+}
+
 /*blackjack*/
 .outline { 
 	width: 110px; 
@@ -45,4 +54,9 @@
 /*yahtzee*/
 .die {
 	font-size: 100px;
+}
+
+/*go fish*/
+.gofish {
+	margin-left: -95px;
 }
