@@ -8,6 +8,8 @@ class Datafile {
 	private $database;
 	private $sortBy;
 	private $mysqli;
+	public $errorMessage = '';
+	public $entry;
 
 	public function __construct($table, $database, $sortBy = '') {
 		$this->table = $table;
@@ -26,7 +28,7 @@ class Datafile {
 			}
 
 			// Retrieve a result set using SELECT
-			$result = $this->mysqli->query("SELECT * FROM national_parks");
+			$result = $this->mysqli->query("SELECT * FROM {$this->table}");
 			$this->querySet = array();
 
 			// Use print_r() to show rows using MYSQLI_ASSOC
@@ -42,7 +44,7 @@ class Datafile {
 			}
 
 			// Retrieve a result set using SELECT
-			$result = $this->mysqli->query("SELECT * FROM national_parks ORDER BY {$this->sortBy};");
+			$result = $this->mysqli->query("SELECT * FROM {$this->table} ORDER BY {$this->sortBy};");
 			$this->querySet = array();
 			// Use print_r() to show rows using MYSQLI_ASSOC
 			while ($row = $result->fetch_assoc()) {
@@ -53,6 +55,26 @@ class Datafile {
 
 	public function getQuerySet() {
 		return $this->querySet;
+	}
+
+	public function addItem() {
+		if (empty($this->entry['name']) || empty($this->entry['location'])  || empty($this->entry['date_established'])  || empty($this->entry['area_in_acres'])  || empty($this->entry['description'])) {
+			$this->errorMessage = 'Please enter text into the required fields';
+			return FALSE;
+		}
+		try {
+			$this->errorMessage = '';
+			// Create the prepared statement
+			$stmt = $this->mysqli->prepare("INSERT INTO {$this->table} (name, location, date_established, area_in_acres, description) VALUES (?, ?, ?, ?, ?)");
+
+			// bind parameters
+			$stmt->bind_param("sssds", $this->entry['name'], $this->entry['location'], $this->entry['area_in_acres'], $this->entry['date_established'], $this->entry['description']);
+			// execute query, return result
+			$stmt->execute();
+			$this->mysqli->close();
+		} catch (Exception $e) {
+			$this->errorMessage = 'Please enter valid information into each field';
+		}
 	}
 }
 

@@ -2,9 +2,11 @@
 
 session_start();
 
-require_once('classes/read-database.php');
 
-if (isset($_GET['organize'])) {
+require_once('classes/read-database.php');
+$colOptions = array('date_established', 'name', 'area_in_acres', 'location');
+
+if (isset($_GET['organize']) && in_array($_GET['organize'], $colOptions)) {
 	if ($_SESSION['sort'] === $_GET['organize']) {
 		$_SESSION['sort'] = $_GET['organize'] . " DESC";
 	} else {
@@ -16,6 +18,12 @@ if (isset($_SESSION['sort'])) {
 	$_SESSION['tableData'] = new Datafile('national_parks', 'codeup_mysqli_test_db', $_SESSION['sort']);
 } else {
 	$_SESSION['tableData'] = new Datafile('national_parks', 'codeup_mysqli_test_db');
+}
+
+if (!empty($_POST)) {
+	$_SESSION['tableData']->entry = $_POST;
+	$_SESSION['tableData']->addItem();
+	$_SESSION['tableData']->readDatabase();
 }
 
 
@@ -39,7 +47,7 @@ $parks = $_SESSION['tableData']->getQuerySet();
 </head>
 <body>
 	<!-- navbar -->
-	<div id="navbar" class="navbar navbar-inverse navbar-fixed-top">
+	<!-- <div id="navbar" class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="row">
 				<div class="navbar-header">
@@ -66,7 +74,7 @@ $parks = $_SESSION['tableData']->getQuerySet();
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<!-- end navbar -->
 	<div class='container main-container'>
 		<div class="page-header">
@@ -86,6 +94,46 @@ $parks = $_SESSION['tableData']->getQuerySet();
 				<?= "</tr>"; ?>
 			<?php } ?>
 		</table>
+		<form class="form-horizontal" method = "POST" action = "">
+			<h3>Add a new National Park:</h3>
+			<p><?= $_SESSION['tableData']->errorMessage; ?></p>
+			<div class='form-group'>
+		        <label class="col-sm-2 control-label" for="name">* Name: </label>
+		        <div class="col-sm-10">
+		        	<input class="form-control" id="name" name="name" type="text" placeholder="Name">
+		    	</div>
+		    </div>
+		    <div class='form-group'>
+		        <label class="col-sm-2 control-label" for="location">* Location: </label>
+		        <div class="col-sm-10">
+		        	<input class="form-control" id="location" name="location" type="text" placeholder="Location">
+		    	</div>
+		    </div>
+		    <div class='form-group'>
+		        <label class="col-sm-2 control-label" for="date_established">* Date Established: </label>
+		        <div class="col-sm-10">
+		        	<input class="form-control" id="date_established" name="date_established" type="text" placeholder="Date Established(YYYY-MM-DD)">
+		    	</div>
+		    </div>
+		    <div class='form-group'>
+		        <label class="col-sm-2 control-label" for="area_in_acres">* Area in Acres: </label>
+		        <div class="col-sm-10">
+		        	<input class="form-control" id="area_in_acres" name="area_in_acres" type="text" placeholder="Area in Acres(no ',')">
+		    	</div>
+		    </div>
+		    <div class='form-group'>
+		        <label class="col-sm-2 control-label" for="description">* Description: </label>
+		        <div class="col-sm-10">
+		        	<input class="form-control" id="description" name="description" type="text" placeholder="Description">
+		    	</div>
+		    </div>
+		    <div class='form-group'>
+		    	<label class="col-sm-2 control-label">* = required </label>
+		    	<div class="col-sm-10">
+		        	<button class="btn btn-default" type="submit">Add</button>
+		    	</div>
+		    </div>
+		</form>
 	</div>
 </body>
 </html>
