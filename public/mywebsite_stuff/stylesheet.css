@@ -69,3 +69,7 @@
 .next-page {
 	text-align: left;
 }
+
+form {
+	margin-bottom: 0;
+}
