@@ -11,3 +11,5 @@ work on linkedin profile
 make blackjack a web app
 Add more styling to webpages
 test
+Make php games into web games
+Connect Four

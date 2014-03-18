@@ -7,7 +7,7 @@ if ($mysqli->connect_errno) {
     echo 'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error;
 }
 
-// // Create the query and assign to var
+// Create the query and assign to var
 // $query = 'CREATE TABLE national_parks (
 //     id INT NOT NULL AUTO_INCREMENT,
 //     name VARCHAR(100) NOT NULL,

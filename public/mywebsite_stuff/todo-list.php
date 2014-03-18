@@ -109,7 +109,7 @@
 		<table class="table table-striped">
 		<? foreach ($todolist as $key => $item) : ?>
 			<tr>
-				<td><?= htmlspecialchars(strip_tags($item)) . "</td><td><a href='/todo-list.php?complete=$key'>&#10004;</a>"; ?></td>
+				<td><?= htmlspecialchars(strip_tags($item)) . "</td><td><a href='todo-list.php?complete=$key'>&#10004;</a>"; ?></td>
 			</tr>
 		<? endforeach; ?>
 		</table>

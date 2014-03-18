@@ -1,8 +1,6 @@
-Add more styling to webpages
 Incorporate JavaScript on todo list app
 Think of new side projects
 Add info to codeup.dev page
-Connect Four
 Make php games into web games
 add alphabetizing feature to address book
 make blackjack a web app

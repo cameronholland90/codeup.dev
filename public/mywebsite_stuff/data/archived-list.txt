@@ -6,3 +6,5 @@ work with sessions on html pages for php game
 look into twitter bootstrap classes
 work on yahtzee
 show todo
+Connect Four
+Add more styling to webpages
