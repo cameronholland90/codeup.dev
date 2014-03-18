@@ -111,6 +111,9 @@ class TodoDatafile extends Datafile {
 		$result = $mysqli->query("SELECT * FROM {$this->table} WHERE completed = 0");
 		$row_cnt = $result->num_rows;
 		$this->pageCount = (int)($row_cnt / 10);
+		if ($row_cnt % 10 === 0) {
+			$this->pageCount--;
+		}
 	}
 
 	public function completeItem($remove) {
@@ -140,6 +143,106 @@ class TodoDatafile extends Datafile {
 		while ($row = $result->fetch_row()) {
 		    $this->querySet[] = $row;
 		}
+	}
+}
+
+class AddressDatafile extends Datafile {
+	protected $table2;
+	protected $linkingTable;
+	public $pageCount;
+
+	public function __construct($firstTable, $secondTable, $linkTable, $database, $sortBy = '') {
+		$this->table = $firstTable;
+		$this->table2 = $secondTable;
+		$this->linkingTable = $linkTable;
+		$this->database = $database;
+		$this->sortBy = $sortBy;
+		$this->readDatabase();
+	}
+
+	public function readDatabase($page = 0, $itemsPerPage = 10) {
+		$mysqli = $this->connectToDb();
+
+		// Check for errors
+		if ($mysqli->connect_errno) {
+		    echo 'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error;
+		}
+
+
+		if ($this->sortBy = '') {
+			$pageStart = $page * $itemsPerPage;
+			// Retrieve a result set using SELECT
+			$result = $mysqli->query("SELECT * FROM {$this->table} as one 
+										JOIN {$this->linkingTable} as link 
+											ON one.name_id = link.name_id
+										JOIN {$this->table2} as two
+											ON link.address_id = two.address_id
+										LIMIT {$pageStart}, {$itemsPerPage}");
+			$this->querySet = array();
+
+			while ($row = $result->fetch_row()) {
+			    $this->querySet[] = $row;
+			}
+		} else {
+			$pageStart = $page * $itemsPerPage;
+			// Retrieve a result set using SELECT
+			$result = $mysqli->query("SELECT * FROM {$this->table} as one 
+										JOIN {$this->linkingTable} as link 
+											ON one.name_id = link.name_id
+										JOIN {$this->table2} as two
+											ON link.address_id = two.address_id
+										ORDER BY {$sortBy}
+										LIMIT {$pageStart}, {$itemsPerPage}");
+			$this->querySet = array();
+
+			while ($row = $result->fetch_row()) {
+			    $this->querySet[] = $row;
+			}
+		}
+	}
+
+	public function setPageCount($itemsPerPage) {
+		$mysqli = $this->connectToDb();
+		$result = $mysqli->query("SELECT * FROM {$this->table}");
+		$row_cnt = $result->num_rows;
+		$this->pageCount = (int)($row_cnt / $itemsPerPage);
+		if (((int)($row_cnt % $itemsPerPage)) === 0) {
+			$this->pageCount--;
+		}
+	}
+
+	public function removeItem($remove) {
+		$mysqli = $this->connectToDb();
+
+		$completed = $this->querySet[$remove][0];
+		$stmt = $mysqli->prepare("UPDATE {$this->table} SET completed = 1 WHERE id = ?");
+
+		$stmt->bind_param("i", $completed);
+		$stmt->execute();
+		$mysqli->close();
+	}
+
+	public function addItem() {
+		$mysqli = $this->connectToDb();
+
+		if (empty($this->entry['name']) || empty($this->entry['address'])  || empty($this->entry['city'])  || empty($this->entry['state'])  || empty($this->entry['zip'])) {
+			$this->errorMessage = 'Please enter text into the required fields';
+			return FALSE;
+		}
+		$this->errorMessage = '';
+		// Create the prepared statement
+		if ($mysqli->query('')) {
+			# code...
+		}
+		$stmt = $mysqli->prepare("INSERT INTO {$this->table} (name) VALUES (?) WHERE ? NOT IN (SELECT name FROM {$this->table})");
+
+		// bind parameters
+		$stmt->bind_param("ss", $this->entry['name'], $this->entry['name']);
+
+		// execute query, return result
+		$stmt->execute();
+
+
 	}
 }
 
