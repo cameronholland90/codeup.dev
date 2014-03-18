@@ -46,36 +46,6 @@ $parks = $_SESSION['tableData']->getQuerySet();
 	<title>mysqli-national-parks.php</title>
 </head>
 <body>
-	<!-- navbar -->
-	<!-- <div id="navbar" class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="row">
-				<div class="navbar-header">
-					<a href="/" class="navbar-brand">CameronHolland.me</a>
-					<button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-				</div>
-				<div class="collapse navbar-collapse navHeaderCollapse nav-pills">
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="/">Resume</a></li>
-						<li><a href="portfolio.html">Portfolio</a></li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects<b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="yahtzee.php">Yahtzee</a></li>
-								<li><a href="blackjack.php">Blackjack</a></li>
-								<li><a href="connect-four.php">Connect Four</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div> -->
-	<!-- end navbar -->
 	<div class='container main-container'>
 		<div class="page-header">
 			<h1>List of National Parks <small>From Wikipedia</small></h1>
@@ -124,7 +94,7 @@ $parks = $_SESSION['tableData']->getQuerySet();
 		    <div class='form-group'>
 		        <label class="col-sm-2 control-label" for="description">* Description: </label>
 		        <div class="col-sm-10">
-		        	<input class="form-control" id="description" name="description" type="text" placeholder="Description">
+		        	<textarea class="form-control" id="description" name="description" type="text" placeholder="Description"></textarea>
 		    	</div>
 		    </div>
 		    <div class='form-group'>

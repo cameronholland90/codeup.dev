@@ -60,3 +60,12 @@
 .gofish {
 	margin-left: -95px;
 }
+
+/*todo list*/
+.prev-page {
+	text-align: right;
+}
+
+.next-page {
+	text-align: left;
+}
