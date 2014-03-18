@@ -3,51 +3,40 @@
 	require_once('classes/read-database.php');
 	require_once('classes/too-small-exception.php');
 
-	session_start();
+	$todo = new TodoDatafile('todolist', 'codeup_dev_db');
 
-	if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != 'http://codeup.dev/mywebsite_stuff/todo-list-db-version.php') {
-		session_destroy();
-		session_start();
+	$page = 0;
+
+	if(isset($_GET['page']) && is_numeric($_GET['page'])) {
+		$page = $_GET['page'];
+		$todo->readDatabase($page);
 	}
 
-	if (!isset($_SESSION['page'])) {
-		$_SESSION['page'] = 0;
+	if (isset($_POST['complete']) && is_numeric($_POST['complete'])) {
+		$remove = $_POST['complete'];
+		$todo->completeItem($remove);
+		$todo->setPageCount();
+		if ($page > $todo->pageCount) {
+			$page--;
+		}
+		header("Location: todo-list-db-version.php?page=$page");
+		exit(0);
 	}
 
 	if (!empty($_POST['todoitem'])) {
-		$_SESSION['todo']->entry = $_POST;
+		$todo->entry = $_POST;
 		try {
-			$_SESSION['todo']->entry = $_POST;
-			$_SESSION['todo']->addItem();
-			$_SESSION['todo']->readDatabase();
+			$todo->entry = $_POST;
+			$todo->addItem();
 		} catch(TooSmallException $ex) {
-			$_SESSION['todo']->errorMessage = 'Please enter a todo';
+			$todo->errorMessage = 'Please enter a todo';
 		} catch(TooBigException $e) {
-			$_SESSION['todo']->errorMessage = 'Each todo item can only be 240 characters long';
+			$todo->errorMessage = 'Each todo item can only be 240 characters long';
 		}
 	} 
 
-	if(isset($_POST['next']) && ($_POST['next'] === 'yes')) {
-		$_SESSION['page'] += 1;
-		$_SESSION['todo']->readDatabase($_SESSION['page']);
-	} elseif(isset($_POST['previous']) && ($_POST['previous'] === 'yes')) {
-		$_SESSION['page'] -= 1;
-		$_SESSION['todo']->readDatabase($_SESSION['page']);
-	}
-
-	if (!isset($_SESSION['todo'])) {
-		$_SESSION['todo'] = new TodoDatafile('todolist', 'codeup_dev_db');
-	} else {
-		$_SESSION['todo']->readDatabase($_SESSION['page']);
-		$_SESSION['todo']->setPageCount();
-	}
-
-	if (isset($_GET['complete']) && is_numeric($_GET['complete'])) {
-		$remove = $_GET['complete'];
-		$_SESSION['todo']->completeItem($remove);
-		header("Location: todo-list-db-version.php");
-		exit(0);
-	}
+	$todo->setPageCount();
+	$todo->readDatabase($page);
 ?>
 
 <!DOCTYPE html>
@@ -103,29 +92,27 @@
 			<h1>Todo List</h1>
 		</div>
 		<table class="table table-striped">
-		<? foreach ($_SESSION['todo']->getQuerySet() as $key => $item) : ?>
+		<? foreach ($todo->getQuerySet() as $key => $item) : ?>
 			<tr>
-				<td><?= htmlspecialchars(strip_tags($item[1])) . "</td><td><a href='todo-list-db-version.php?complete=$key'>&#10004;</a>"; ?></td>
+				<td><?= htmlspecialchars(strip_tags($item[1])) ?></td><td><form method='POST' action=""><button class='btn-xs btn-danger' name='complete' type='submit' value='<?= $key ?>'>&#10004;</button></form></td>
 			</tr>
 		<? endforeach; ?>
 		</table>
 		<div class='row'>
-			<form method='POST' action=''>
-				<div class='col-sm-6 prev-page'>
-					<?php if ($_SESSION['page'] > 0): ?>
-						<button type='submit' class='btn btn-danger' id='previous' name ='previous' value='yes'>Previous</button>
-					<?php endif ?>
-				</div>
-				<div class='col-sm-6 next-page'>
-					<?php if ($_SESSION['page'] < $_SESSION['todo']->pageCount): ?>
-						<button type='submit' class='btn btn-success' id='next' name='next' value='yes'>Next</button>
-					<?php endif ?>
-				</div>
-			</form>
+			<div class='col-sm-6 prev-page'>
+				<?php if ($page > 0): ?>
+					<a class='btn btn-danger' href="todo-list-db-version.php?page=<?= ($page-1) ?>">Previous</a>
+				<?php endif ?>
+			</div>
+			<div class='col-sm-6 next-page'>
+				<?php if ($page < $todo->pageCount): ?>
+					<a class='btn btn-success' href="todo-list-db-version.php?page=<?= ($page+1) ?>">Next</a>
+				<?php endif ?>
+			</div>
 		</div>
 		<form method="POST" action="">
 			<h3>Add a new todo item:</h3>
-			<p><?= $_SESSION['todo']->errorMessage; ?></p>
+			<p><?= $todo->errorMessage; ?></p>
 			<p>
 		        <div class="row">
 				  <div class="col-lg-6">
