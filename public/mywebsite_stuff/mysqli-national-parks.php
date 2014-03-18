@@ -7,7 +7,7 @@ require_once('classes/read-database.php');
 $colOptions = array('date_established', 'name', 'area_in_acres', 'location');
 
 if (isset($_GET['organize']) && in_array($_GET['organize'], $colOptions)) {
-	if ($_SESSION['sort'] === $_GET['organize']) {
+	if (isset($_SESSION['sort']) && ($_SESSION['sort'] === $_GET['organize'])) {
 		$_SESSION['sort'] = $_GET['organize'] . " DESC";
 	} else {
 		$_SESSION['sort'] = $_GET['organize'];
@@ -25,7 +25,6 @@ if (!empty($_POST)) {
 	$_SESSION['tableData']->addItem();
 	$_SESSION['tableData']->readDatabase();
 }
-
 
 $parks = $_SESSION['tableData']->getQuerySet();
 
