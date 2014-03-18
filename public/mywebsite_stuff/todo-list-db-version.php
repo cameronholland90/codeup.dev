@@ -23,7 +23,7 @@
 		exit(0);
 	}
 
-	if (!empty($_POST['todoitem'])) {
+	if (!empty($_POST)) {
 		$todo->entry = $_POST;
 		try {
 			$todo->entry = $_POST;
@@ -94,7 +94,7 @@
 		<table class="table table-striped">
 		<? foreach ($todo->getQuerySet() as $key => $item) : ?>
 			<tr>
-				<td><?= htmlspecialchars(strip_tags($item[1])) ?></td><td><form method='POST' action=""><button class='btn-xs btn-danger' name='complete' type='submit' value='<?= $key ?>'>&#10004;</button></form></td>
+				<td class='col-sm-10'><?= htmlspecialchars(strip_tags($item[1])) ?></td><td><form method='POST' action=""><button class='btn-xs btn-danger col-sm-2' name='complete' type='submit' value='<?= $key ?>'>&#10004;</button></form></td>
 			</tr>
 		<? endforeach; ?>
 		</table>
