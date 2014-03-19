@@ -74,6 +74,15 @@
 	width: 30%;
 }
 
+input, textarea {
+  outline: none;
+}
+ 
+input:focus, textarea:focus {
+  box-shadow: 0 0 15px #0F0 !important;
+  border: 2px inset #66CC66 !important;
+}
+
 form {
 	margin-bottom: 0;
 }

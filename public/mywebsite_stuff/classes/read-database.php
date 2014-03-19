@@ -107,9 +107,18 @@ class TodoDatafile extends Datafile {
 
 	}
 
-	public function setPageCount() {
+	public function setPageCount($todoOrComplete) {
 		$mysqli = $this->connectToDb();
-		$result = $mysqli->query("SELECT * FROM {$this->table} WHERE completed = 0");
+
+		if ($todoOrComplete == 'Todo') {
+			$completed = 0;
+		} elseif ($todoOrComplete == 'Completed') {
+			$completed = 1;
+		} else {
+			$completed = 0;
+		}
+
+		$result = $mysqli->query("SELECT * FROM {$this->table} WHERE completed = $completed");
 		$row_cnt = $result->num_rows;
 		$this->pageCount = (int)($row_cnt / $this->itemsPerPage);
 		if ($row_cnt % $this->itemsPerPage === 0) {
@@ -128,7 +137,7 @@ class TodoDatafile extends Datafile {
 		$mysqli->close();
 	}
 
-	public function readDatabase($page = 0, $todoOrComplete = 'todo') {
+	public function readDatabase($page = 0, $todoOrComplete = 'Todo') {
 		$mysqli = $this->connectToDb();
 
 		// Check for errors
@@ -136,9 +145,9 @@ class TodoDatafile extends Datafile {
 		    echo 'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error;
 		}
 
-		if ($todoOrComplete == 'todo') {
+		if ($todoOrComplete == 'Todo') {
 			$completed = 0;
-		} elseif ($todoOrComplete == 'completed') {
+		} elseif ($todoOrComplete == 'Completed') {
 			$completed = 1;
 		} else {
 			$completed = 0;

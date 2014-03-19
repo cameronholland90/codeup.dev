@@ -10,7 +10,7 @@
 	}
 
 	if (!isset($_SESSION['todoOrComplete'])) {
-		$_SESSION['todoOrComplete'] = 'todo';
+		$_SESSION['todoOrComplete'] = 'Todo';
 	}
 
 	$page = 0;
@@ -20,13 +20,13 @@
 		$_SESSION['todo']->readDatabase($page, $_SESSION['todoOrComplete']);
 	}
 
-	if (isset($_GET['todoOrComplete']) && ($_GET['todoOrComplete'] === 'completed' || $_GET['todoOrComplete'] === 'todo')) {
+	if (isset($_GET['todoOrComplete']) && ($_GET['todoOrComplete'] === 'Completed' || $_GET['todoOrComplete'] === 'Todo')) {
 		$page = 0;
 		$_SESSION['todo']->readDatabase($page, $_GET['todoOrComplete']);
-		if ($_SESSION['todoOrComplete'] === 'completed') {
-			$_SESSION['todoOrComplete'] = 'todo';
+		if ($_SESSION['todoOrComplete'] === 'Completed') {
+			$_SESSION['todoOrComplete'] = 'Todo';
 		} else {
-			$_SESSION['todoOrComplete'] = 'completed';
+			$_SESSION['todoOrComplete'] = 'Completed';
 		}
 		header("Location: todo-list-db-version.php?page=$page");
 		exit(0);
@@ -35,7 +35,7 @@
 	if (isset($_POST['complete']) && is_numeric($_POST['complete'])) {
 		$remove = $_POST['complete'];
 		$_SESSION['todo']->completeItem($remove);
-		$_SESSION['todo']->setPageCount();
+		$_SESSION['todo']->setPageCount($_SESSION['todoOrComplete']);
 		if ($page > $_SESSION['todo']->pageCount) {
 			$page--;
 		}
@@ -58,7 +58,7 @@
 		$_SESSION['todo']->readDatabase($page, $_SESSION['todoOrComplete']);
 	}
 
-	$_SESSION['todo']->setPageCount();
+	$_SESSION['todo']->setPageCount($_SESSION['todoOrComplete']);
 ?>
 
 <!DOCTYPE html>
@@ -111,12 +111,15 @@
 
 	<div class='container main-container'>
 		<div class="page-header">
-			<h1>Todo List</h1>
+			<h1><?= $_SESSION['todoOrComplete'] ?> List</h1>
 		</div>
 		<table class="table table-striped">
 		<? foreach ($_SESSION['todo']->getQuerySet() as $key => $item) : ?>
 			<tr>
-				<td class='col-sm-10'><?= htmlspecialchars(strip_tags($item[1])) ?></td><td><form method='POST' action=""><button class='btn-xs btn-danger col-sm-2' name='complete' type='submit' value='<?= $key ?>'>&#10004;</button></form></td>
+				<td class='col-sm-10'><?= htmlspecialchars(strip_tags($item[1])) ?></td>
+				<? if($_SESSION['todoOrComplete'] === 'Todo') : ?>
+					<td><form method='POST' action=""><button class='btn-xs btn-danger col-sm-2' name='complete' type='submit' value='<?= $key ?>'>&#10004;</button></form></td>
+				<? endif; ?>
 			</tr>
 		<? endforeach; ?>
 		</table>
@@ -124,7 +127,7 @@
 			<div class='col-sm-5 prev-page'>
 				<?php if ($page > 0): ?>
 					<a class='btn btn-danger' href="todo-list-db-version.php?page=<?= ($page-1) ?>">Previous</a>
-				<?php endif ?>
+				<?php endif; ?>
 			</div>
 			<div class='col-sm-2'>
 				<form method='POST' action=''>
@@ -137,7 +140,7 @@
 			<div class='col-sm-5 next-page'>
 				<?php if ($page < $_SESSION['todo']->pageCount): ?>
 					<a class='btn btn-success' href="todo-list-db-version.php?page=<?= ($page+1) ?>">Next</a>
-				<?php endif ?>
+				<?php endif; ?>
 			</div>
 		</div>
 		<form method="POST" action="">
