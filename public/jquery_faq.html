@@ -11,32 +11,35 @@
 	<script src="/js/jquery.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			setInterval(function() {
+			$('dt').click(function() {
 				$('dd').toggleClass('invisible');
-			}, 10000);
-		})
+			}, 
+			function() {
+				$('dd').toggleClass('invisible');
+			});
+		});
 	</script>
 	<dl>
 		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
+		<dd>- Answer</dd>
 		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
+		<dd>- Answer</dd>
 		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
+		<dd>- Answer</dd>
 		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
+		<dd>- Answer</dd>
 		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
+		<dd>- Answer</dd>
 		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
+		<dd>- Answer</dd>
 		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
+		<dd>- Answer</dd>
 		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
+		<dd>- Answer</dd>
 		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
+		<dd>- Answer</dd>
 		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
+		<dd>- Answer</dd>
 	</dl>
 </body>
 </html>
