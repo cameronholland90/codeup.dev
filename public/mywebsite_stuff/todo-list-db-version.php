@@ -9,11 +9,27 @@
 		$_SESSION['todo'] = new TodoDatafile('todolist', 'codeup_dev_db');
 	}
 
+	if (!isset($_SESSION['todoOrComplete'])) {
+		$_SESSION['todoOrComplete'] = 'todo';
+	}
+
 	$page = 0;
 
 	if(isset($_GET['page']) && is_numeric($_GET['page'])) {
 		$page = $_GET['page'];
-		$_SESSION['todo']->readDatabase($page);
+		$_SESSION['todo']->readDatabase($page, $_SESSION['todoOrComplete']);
+	}
+
+	if (isset($_GET['todoOrComplete']) && ($_GET['todoOrComplete'] === 'completed' || $_GET['todoOrComplete'] === 'todo')) {
+		$page = 0;
+		$_SESSION['todo']->readDatabase($page, $_GET['todoOrComplete']);
+		if ($_SESSION['todoOrComplete'] === 'completed') {
+			$_SESSION['todoOrComplete'] = 'todo';
+		} else {
+			$_SESSION['todoOrComplete'] = 'completed';
+		}
+		header("Location: todo-list-db-version.php?page=$page");
+		exit(0);
 	}
 
 	if (isset($_POST['complete']) && is_numeric($_POST['complete'])) {
@@ -39,10 +55,10 @@
 		}
 	} elseif (!empty($_POST['itemCount'])) {
 		$_SESSION['todo']->setItems($_POST['itemCount']);
+		$_SESSION['todo']->readDatabase($page, $_SESSION['todoOrComplete']);
 	}
 
 	$_SESSION['todo']->setPageCount();
-	$_SESSION['todo']->readDatabase($page);
 ?>
 
 <!DOCTYPE html>
@@ -110,10 +126,10 @@
 					<a class='btn btn-danger' href="todo-list-db-version.php?page=<?= ($page-1) ?>">Previous</a>
 				<?php endif ?>
 			</div>
-			<div class='col-sm-2 items-per'>
+			<div class='col-sm-2'>
 				<form method='POST' action=''>
 			        <div>
-			        	<input class="form-control" id="itemCount" name="itemCount" type="text" value="<?= $_SESSION['todo']->getItems() ?>" required/>
+			        	<input class="form-control items-per" id="itemCount" name="itemCount" type="text" value="<?= $_SESSION['todo']->getItems() ?>" required/>
 			    	</div>
 					<label class="control-label" for="address">Items per page: </label>
 				</form>
@@ -140,6 +156,7 @@
 				</div>
 		    </p>
 		</form>
+		<a class='btn btn-success' href="todo-list-db-version.php?todoOrComplete=<?= $_SESSION['todoOrComplete'] ?>">Complete/Todo</a>
 	</div>
 </body>
 </html>

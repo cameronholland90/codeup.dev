@@ -70,6 +70,10 @@
 	text-align: left;
 }
 
+.items-per {
+	width: 30%;
+}
+
 form {
 	margin-bottom: 0;
 }

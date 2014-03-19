@@ -128,7 +128,7 @@ class TodoDatafile extends Datafile {
 		$mysqli->close();
 	}
 
-	public function readDatabase($page = 0) {
+	public function readDatabase($page = 0, $todoOrComplete = 'todo') {
 		$mysqli = $this->connectToDb();
 
 		// Check for errors
@@ -136,9 +136,17 @@ class TodoDatafile extends Datafile {
 		    echo 'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error;
 		}
 
+		if ($todoOrComplete == 'todo') {
+			$completed = 0;
+		} elseif ($todoOrComplete == 'completed') {
+			$completed = 1;
+		} else {
+			$completed = 0;
+		}
+
 		$pageStart = $page * $this->itemsPerPage;
 		// Retrieve a result set using SELECT
-		$result = $mysqli->query("SELECT * FROM {$this->table} WHERE completed = 0 LIMIT {$pageStart}, $this->itemsPerPage");
+		$result = $mysqli->query("SELECT * FROM {$this->table} WHERE completed = $completed LIMIT {$pageStart}, $this->itemsPerPage");
 		$this->querySet = array();
 
 		while ($row = $result->fetch_row()) {
