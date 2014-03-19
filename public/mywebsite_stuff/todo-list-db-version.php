@@ -3,40 +3,46 @@
 	require_once('classes/read-database.php');
 	require_once('classes/too-small-exception.php');
 
-	$todo = new TodoDatafile('todolist', 'codeup_dev_db');
+	session_start();
+
+	if (!isset($_SESSION['todo'])) {
+		$_SESSION['todo'] = new TodoDatafile('todolist', 'codeup_dev_db');
+	}
 
 	$page = 0;
 
 	if(isset($_GET['page']) && is_numeric($_GET['page'])) {
 		$page = $_GET['page'];
-		$todo->readDatabase($page);
+		$_SESSION['todo']->readDatabase($page);
 	}
 
 	if (isset($_POST['complete']) && is_numeric($_POST['complete'])) {
 		$remove = $_POST['complete'];
-		$todo->completeItem($remove);
-		$todo->setPageCount();
-		if ($page > $todo->pageCount) {
+		$_SESSION['todo']->completeItem($remove);
+		$_SESSION['todo']->setPageCount();
+		if ($page > $_SESSION['todo']->pageCount) {
 			$page--;
 		}
 		header("Location: todo-list-db-version.php?page=$page");
 		exit(0);
 	}
 
-	if (!empty($_POST)) {
-		$todo->entry = $_POST;
+	if (!empty($_POST['todoitem'])) {
+		$_SESSION['todo']->entry = $_POST['todoitem'];
 		try {
-			$todo->entry = $_POST;
-			$todo->addItem();
+			$_SESSION['todo']->entry = $_POST;
+			$_SESSION['todo']->addItem();
 		} catch(TooSmallException $ex) {
-			$todo->errorMessage = 'Please enter a todo';
+			$_SESSION['todo']->errorMessage = 'Please enter a todo';
 		} catch(TooBigException $e) {
-			$todo->errorMessage = 'Each todo item can only be 240 characters long';
+			$_SESSION['todo']->errorMessage = 'Each todo item can only be 240 characters long';
 		}
-	} 
+	} elseif (!empty($_POST['itemCount'])) {
+		$_SESSION['todo']->setItems($_POST['itemCount']);
+	}
 
-	$todo->setPageCount();
-	$todo->readDatabase($page);
+	$_SESSION['todo']->setPageCount();
+	$_SESSION['todo']->readDatabase($page);
 ?>
 
 <!DOCTYPE html>
@@ -92,27 +98,35 @@
 			<h1>Todo List</h1>
 		</div>
 		<table class="table table-striped">
-		<? foreach ($todo->getQuerySet() as $key => $item) : ?>
+		<? foreach ($_SESSION['todo']->getQuerySet() as $key => $item) : ?>
 			<tr>
 				<td class='col-sm-10'><?= htmlspecialchars(strip_tags($item[1])) ?></td><td><form method='POST' action=""><button class='btn-xs btn-danger col-sm-2' name='complete' type='submit' value='<?= $key ?>'>&#10004;</button></form></td>
 			</tr>
 		<? endforeach; ?>
 		</table>
 		<div class='row'>
-			<div class='col-sm-6 prev-page'>
+			<div class='col-sm-5 prev-page'>
 				<?php if ($page > 0): ?>
 					<a class='btn btn-danger' href="todo-list-db-version.php?page=<?= ($page-1) ?>">Previous</a>
 				<?php endif ?>
 			</div>
-			<div class='col-sm-6 next-page'>
-				<?php if ($page < $todo->pageCount): ?>
+			<div class='col-sm-2 items-per'>
+				<form method='POST' action=''>
+			        <div>
+			        	<input class="form-control" id="itemCount" name="itemCount" type="text" value="<?= $_SESSION['todo']->getItems() ?>" required/>
+			    	</div>
+					<label class="control-label" for="address">Items per page: </label>
+				</form>
+			</div>
+			<div class='col-sm-5 next-page'>
+				<?php if ($page < $_SESSION['todo']->pageCount): ?>
 					<a class='btn btn-success' href="todo-list-db-version.php?page=<?= ($page+1) ?>">Next</a>
 				<?php endif ?>
 			</div>
 		</div>
 		<form method="POST" action="">
 			<h3>Add a new todo item:</h3>
-			<p><?= $todo->errorMessage; ?></p>
+			<p><?= $_SESSION['todo']->errorMessage; ?></p>
 			<p>
 		        <div class="row">
 				  <div class="col-lg-6">

@@ -79,6 +79,7 @@ class Datafile {
 
 class TodoDatafile extends Datafile {
 	public $pageCount;
+	private $itemsPerPage = 10;
 
 	public function __construct($table, $database, $sortBy = '') {
 		parent::__construct($table, $database, $sortBy);
@@ -110,8 +111,8 @@ class TodoDatafile extends Datafile {
 		$mysqli = $this->connectToDb();
 		$result = $mysqli->query("SELECT * FROM {$this->table} WHERE completed = 0");
 		$row_cnt = $result->num_rows;
-		$this->pageCount = (int)($row_cnt / 10);
-		if ($row_cnt % 10 === 0) {
+		$this->pageCount = (int)($row_cnt / $this->itemsPerPage);
+		if ($row_cnt % $this->itemsPerPage === 0) {
 			$this->pageCount--;
 		}
 	}
@@ -135,14 +136,22 @@ class TodoDatafile extends Datafile {
 		    echo 'Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error;
 		}
 
-		$pageStart = $page * 10;
+		$pageStart = $page * $this->itemsPerPage;
 		// Retrieve a result set using SELECT
-		$result = $mysqli->query("SELECT * FROM {$this->table} WHERE completed = 0 LIMIT {$pageStart}, 10");
+		$result = $mysqli->query("SELECT * FROM {$this->table} WHERE completed = 0 LIMIT {$pageStart}, $this->itemsPerPage");
 		$this->querySet = array();
 
 		while ($row = $result->fetch_row()) {
 		    $this->querySet[] = $row;
 		}
+	}
+
+	public function getItems() {
+		return $this->itemsPerPage;
+	}
+
+	public function setItems($count) {
+		$this->itemsPerPage = $count;
 	}
 }
 
