@@ -3,6 +3,11 @@
 	<title>jquery_exercises</title>
 </head>
 <body>
+	<style type="text/css">
+	body {
+		cursor: wait;
+	}
+	</style>
 	<script src="/js/jquery.js"></script>
 	<script type="text/javascript">
 	
@@ -14,6 +19,33 @@
 	$(document).ready(function() {
 	    var contents = $('h1').html();
 	    alert(contents);
+	});
+
+	$(document).ready(function() {
+		$('#para').click(function() {
+			$('#para').fadeOut('easing');
+		});
+	});
+
+	$(document).ready(function() {
+		$('h1').click(function() {
+			$('h1').css('background-color', '#00F');
+		});
+	});
+
+	$(document).ready(function() {
+		$('p').dblclick(function() {
+			$('p').css('font-size', '18px');
+		});
+	});
+
+	$(document).ready(function() {
+		$('li').hover(function() {
+			$(this).css('color', '#F00');
+		},
+		function() {
+			$(this).css('color','default');
+		});
 	});
 
 	</script>
