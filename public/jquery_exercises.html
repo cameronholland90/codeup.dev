@@ -7,7 +7,13 @@
 	<script type="text/javascript">
 	
 	$(document).ready(function() {
-	    $('.codeup').css('border', 'solid #F00 1px');
+	    $('li').css('font-size', '20px');
+	    $('h1, p, li').css('background-color', 'yellow');
+	});
+
+	$(document).ready(function() {
+	    var contents = $('h1').html();
+	    alert(contents);
 	});
 
 	</script>
@@ -45,6 +51,24 @@
 			<li id='two' class='codeup'>2</li>
 			<li id='three' class='header-three'>3</li>
 		</ul>
+		<table>
+			<th>
+				<td>Left</td>
+				<td>Right</td>
+			</th>
+			<tr>
+				<td>1</td>
+				<td>6</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>5</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>4</td>
+			</tr>
+		</table>
 	</div>
 </body>
 </html>
