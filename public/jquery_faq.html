@@ -15,16 +15,29 @@
 				$(this).next().toggleClass('invisible');
 			});
 		});
+
+		$(document).ready(function() {
+			$('ul').each(function() {
+				$(this).children().first().css('font-weight', 'bold');
+			});
+		});
+
+		$(document).ready(function() {
+			$('li').click(function() {
+				$(this).parent().toggleClass('invisible');
+			});
+		});
 	</script>
+	<h1>Frequently Asked Questions</h1>
 	<dl>
-		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
-		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
-		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
-		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
+		<dt>Which is better: Tiger or Monkey style Kung Fu?</dt>
+		<dd class='invisible'>- Depends on the terrain.</dd>
+		<dt>My souffles keep collapsing! What can I do?</dt>
+		<dd class='invisible'>- In order for the meringue to peak properly we suggest adding a little lemon juice to the béchamel. This strengthens the mixture and prevents tragedy.</dd>
+		<dt>You smell very nice. What cologne do you use?</dt>
+		<dd class='invisible'>- Febreeze.</dd>
+		<dt></dt>
+		<dd class='invisible'>- </dd>
 		<dt>Question</dt>
 		<dd class='invisible'>- Answer</dd>
 		<dt>Question</dt>
@@ -38,5 +51,23 @@
 		<dt>Question</dt>
 		<dd class='invisible'>- Answer</dd>
 	</dl>
+	<h3>Arches</h3>
+	<ul>
+		<li>Cryptobiotic crust, a living soil comprised of algae, lichens, and bacteria, is found throughout Arches.</li>
+		<li>Whoever discovers a new natural arch gets to name it!</li>
+		<li>Nearby Moab's popular breakfast spot the Jailhouse Cafe used to be an actual jail. In the late 1800s the building was the area's first county courthouse, complete with jail cells. </li>
+	</ul>
+	<h3>Badlands</h3>
+	<ul>
+		<li>The Badlands average one inch of erosion per year.</li>
+		<li>The Badlands prairie is comprised of over 56 different varieties of prairie grasses.</li>
+		<li> It was designated a national park in 1978.</li>
+	</ul>
+	<h3>Carlsbad Caverns</h3>
+	<ul>
+		<li>Bones from ice age animals like jaguars, camels, lions and giant sloths have been found in the entrance areas of some caves in Carlsbad Caverns National Park.</li>
+		<li>Scientists are studying "extremophile" microbes in the highly protected and almost pristine Lechuguilla Cave that are leading scientists towards generating a possible cure for cancer.</li>
+		<li>The rugged landscape of the Carlsbad Caverns National Park conceals 117 known caves.</li>
+	</ul>
 </body>
 </html>
