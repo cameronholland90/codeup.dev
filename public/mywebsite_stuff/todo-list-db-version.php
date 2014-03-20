@@ -55,9 +55,9 @@
 		}
 	} elseif (!empty($_POST['itemCount'])) {
 		$_SESSION['todo']->setItems($_POST['itemCount']);
-		$_SESSION['todo']->readDatabase($page, $_SESSION['todoOrComplete']);
 	}
 
+	$_SESSION['todo']->readDatabase($page, $_SESSION['todoOrComplete']);
 	$_SESSION['todo']->setPageCount($_SESSION['todoOrComplete']);
 ?>
 
