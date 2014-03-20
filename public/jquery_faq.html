@@ -12,7 +12,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('dt').click(function() {
-				$(this).next().toggleClass('invisible');
+				$(this).next().fadeToggle();
 			});
 		});
 
@@ -23,8 +23,8 @@
 		});
 
 		$(document).ready(function() {
-			$('li').click(function() {
-				$(this).parent().toggleClass('invisible');
+			$('h3').click(function() {
+				$(this).next().fadeToggle();
 			});
 		});
 	</script>
@@ -36,10 +36,10 @@
 		<dd class='invisible'>- In order for the meringue to peak properly we suggest adding a little lemon juice to the béchamel. This strengthens the mixture and prevents tragedy.</dd>
 		<dt>You smell very nice. What cologne do you use?</dt>
 		<dd class='invisible'>- Febreeze.</dd>
-		<dt></dt>
-		<dd class='invisible'>- </dd>
-		<dt>Question</dt>
-		<dd class='invisible'>- Answer</dd>
+		<dt>What are the rules?</dt>
+		<dd class='invisible'>- We want this to work in your favor but there are a few rules. This isn't Thunder Dome.</dd>
+		<dt>Who shot first?</dt>
+		<dd class='invisible'>- <a href='http://en.wikipedia.org/wiki/Han_shot_first'>Han</a></dd>
 		<dt>Question</dt>
 		<dd class='invisible'>- Answer</dd>
 		<dt>Question</dt>
