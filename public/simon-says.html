@@ -1,0 +1,80 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Revalia' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="simon-style.css" type="text/css" />
+	<title>Simon Says</title>
+</head>
+<body>
+	<script src="/js/jquery.js"></script>
+	<script src="js/simon-script.js" type="text/javascript"></script>
+
+	<div class='wrapper'>
+		<h1 class='page-header'>HYPNOTOAD SAYS</h1>
+	</div>
+	<div class="wrapper">
+		<div class="back">
+			<div class="pad shape1" data-pad="1">
+				<img id='fry' src="img/Fry_Head.png"/>
+				<audio preload="auto" class="sound1">
+					<source src="sounds/mp3/sounds_01.mp3" type="audio/mpeg"/>
+					<source src="sounds/ogg/sounds_01.ogg" type="audio/ogg"/>
+				</audio>
+			</div>
+			<div class="pad shape2" data-pad="2">
+				<img id='leela' src="img/leela_head.png"/>
+				<audio preload="auto" class="sound2">
+					<source src="sounds/mp3/sounds_02.mp3"  type="audio/mpeg"/>
+					<source src="sounds/ogg/sounds_02.ogg" type="audio/ogg"/>
+				</audio>
+			</div>
+			<div class="pad shape3" data-pad="3">
+				<img id='professor' src="img/professor-farnsworth-head.png"/>
+				<audio preload="auto" class="sound3">
+					<source src="sounds/mp3/sounds_03.mp3" type="audio/mpeg"/>
+					<source src="sounds/ogg/sounds_03.ogg" type="audio/ogg"/>
+				</audio>
+			</div>
+			<div class="pad shape4" data-pad="4">
+				<img id='bender' src="img/bender_head.png"/>
+				<audio preload="auto" class="sound4">
+					<source src="sounds/mp3/sounds_04.mp3" type="audio/mpeg"/>
+					<source src="sounds/ogg/sounds_04.ogg" type="audio/ogg"/>
+				</audio>
+			</div>
+			<div class="circle"><img class='toad' src="img/hypno-toad.gif"/></div>
+		</div>
+
+		<div class="level">
+			<h2>Level: 1</h2>
+		</div>
+		<div class="score">
+			<h2>Score: 0</h2>
+		</div>
+		
+		<ul class="difficulty">
+
+			<li>
+				<input type="radio" class="difOpt" name="difficulty" id='diff1' value="2"/><label for='diff1'> Easy </label>
+			</li>
+			<li>
+				<input type="radio" class="difOpt" name="difficulty" id='diff2' value="1" checked/><label for='diff2'> Normal </label>
+			</li>
+			<li>
+				<input type="radio" class="difOpt" name="difficulty" id='diff3' value="0.5"/><label for='diff3'> Hard </label>
+			</li>
+			<li>
+				<input type="radio" class="difOpt" name="difficulty" id='diff4' value="0.25"/><label for='diff4'> Insane </label>
+			</li>
+		</ul>
+		<div class="sButton">
+			<button class="start btn btn-success">start</button>
+		</div>
+	</div>
+</body>
+</html>

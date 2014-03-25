@@ -1,0 +1,147 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Revalia' rel='stylesheet' type='text/css'>
+	<title>Whack-A-Mole</title>
+</head>
+<body>
+	<style type="text/css">
+		.hole {
+			width: 150px;
+			height: 150px;
+			border: solid 1px #000;
+			float: left;
+		}
+
+		.board {
+			margin: 10px auto;
+			width: 450px;
+			height: 450px;
+		}
+
+		img {
+			width: 148px;
+			height: 148px;
+			display: none;
+		}
+
+		body {
+			cursor: url("img/caveman3.png"), auto;
+			background-image: url("img/secret-squirrel-background.jpg");
+			background-repeat: no-repeat;
+			background-attachment:fixed;
+			background-size: 100%;
+		}
+	</style>
+	<script src="/js/jquery.js"></script>
+	<script type="text/javascript">
+		
+		$(document).ready(function() {
+			var interval;
+			var gameTime;
+			var start = false;
+			var count = 0;
+			// var missCount = -1;
+			var highscore = 0;
+			var holes = $('.hole');
+			var moleMove;
+			var timer = 30;
+			
+			var gameStart = document.createElement('audio');
+			gameStart.setAttribute('src', 'sounds/captain-caveman-yell.mp3');
+
+			var bonk = document.createElement('audio');
+			bonk.setAttribute('src', 'sounds/bonk.mp3');
+			
+			function game() {
+				$('.hole').children().fadeOut();
+				// missCount++;
+				var rand = Math.floor(Math.random() * holes.length);
+				$(holes[rand]).children().fadeIn();
+				// console.log(missCount);
+			};
+			
+			$('#count').html(count.toString());
+
+			$('.hole').hide();
+			$('#game-over').hide();
+			$('#playing').hide();
+			$('button').show();
+			$('button').click(function() {
+				gameStart.play();
+				interval = 1500;
+				$(this).hide();
+				$('.hole').show();
+				$('#playing').show();
+				$('#game-over').hide();
+				moleMove = setInterval(game, interval);
+				console.log(interval);
+				gameTime = setInterval(function() {
+					$('#timer').html("Time Left: " + timer.toString());
+					timer--;
+				}, 950);
+
+				setTimeout(function() {
+					clearInterval(moleMove);
+					$('.hole').hide();
+					$('#playing').hide();
+					$('#game-over').show();
+					$('button').show();
+					if (highscore < count) {
+						highscore = count;
+						$('#highscore').html("High Score: " + highscore.toString());
+					};
+					$('#end-score').html('<p>Your Score was ' + count.toString() + '</p><p>Highscore is ' + highscore.toString() + '</p>');
+					start = false;
+					count = 0;
+					clearInterval(gameTime);
+					timer = 30;
+					$('#count').html(count.toString());
+				}, 30000);
+			});
+
+			$('img').click(function() {
+				bonk.play();
+				$(this).hide();
+				count++;
+				$('#count').html(count.toString());
+
+				if ((count !== 0) && (count % 5 === 0)) {
+					clearInterval(moleMove);
+					interval -= 250;
+					console.log(interval);
+					moleMove = setInterval(game, interval);
+				};
+				// missCount--;
+			});
+
+		});
+	</script>
+	
+	<div class='board'>
+		<h1 id='playing' class='page-header'>Whack-A-Mole<small><p>Your Score: <span id='count'>0</span></p><p id='highscore'>High Score: 0</p><p id='timer'>Time Left: 30</p></small></h1>
+		<div class='row'>
+			<button>Start Game</button>
+			<h1 id='game-over' class='page-header'>Game Over <small id='end-score'></small></h1>
+			<div class='hole'><img id='1' src="img/Moroccomole.png"/></div>
+			<div class='hole'><img id='2' src="img/Moroccomole.png"/></div>
+			<div class='hole'><img id='3' src="img/Moroccomole.png"/></div>
+		</div>
+		<div class='row'>
+			<div class='hole'><img id='4' src="img/Moroccomole.png"/></div>
+			<div class='hole'><img id='5' src="img/Moroccomole.png"/></div>
+			<div class='hole'><img id='6' src="img/Moroccomole.png"/></div>
+		</div>
+		<div class='row'>
+			<div class='hole'><img id='7' src="img/Moroccomole.png"/></div>
+			<div class='hole'><img id='8' src="img/Moroccomole.png"/></div>
+			<div class='hole'><img id='9' src="img/Moroccomole.png"/></div>
+		</div>
+	</div>
+</body>
+</html>

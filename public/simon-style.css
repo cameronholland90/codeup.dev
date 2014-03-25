@@ -1,0 +1,142 @@
+body {
+  background-image: url('img/Futurama_Background.jpg');
+  background-repeat: no-repeat;
+  background-attachment:fixed;
+  background-size: 100%;
+  color: #fff;
+}
+
+ul {
+  list-style: none;
+  margin: 0 0 20px 0;
+  padding: 0;
+  text-align: center;
+}
+
+li {
+  display: inline-block;
+  padding: 3px;
+}
+
+.wrapper {
+  position: relative;
+  width: 640px;
+  margin: 0 auto;
+}
+
+.back {
+  position: absolute;
+  top: 170px;
+  width: 640px;
+  height: 640px;
+  z-index: 0;
+  background-color: #000;
+  border-radius: 310px;
+}
+
+.pad {
+  width: 300px;
+  height: 300px;
+  float: left;
+  z-index: 1;
+  margin: 10px;
+  opacity: 0.6;
+}
+
+.shape1 {
+  border-top-left-radius: 300px;
+  background-color: green;
+}
+
+.shape2 {
+  float: left;
+  border-top-right-radius: 300px;
+  background-color: red;
+  clear: right;
+}
+
+.shape3 {
+  float: left;
+  border-bottom-left-radius: 300px;
+  background-color: yellow;
+  clear: left;
+}
+
+.shape4 {
+  float: left;
+  border-bottom-right-radius: 300px;
+  background-color: blue;
+}
+
+.circle {
+  position: absolute;
+  top: 195px;
+  left: 195px;
+  width: 250px;
+  height: 250px;
+  background: #000;
+  border-radius: 125px;
+  z-index: 10;
+}
+
+.level, .score {
+  width: 50%;
+  float: left;
+  text-align: center;
+}
+
+.sButton {
+  width: 30%;
+  margin: 0 auto;
+}
+
+.start {
+  width: 100%;
+  height: 30px;
+  text-align: center;
+}
+
+.toad {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#bender {
+  margin-top: -10px;
+  margin-left: 50px;
+  max-width: 100%;
+  max-height: 100%;
+  transform:rotate(45deg);
+  -ms-transform:rotate(45deg); /* IE 9 */
+  -webkit-transform:rotate(45deg); /* Opera, Chrome, and Safari */
+}
+
+#leela {
+  margin-top: 60px;
+  margin-left: 30px;
+  max-width: 70%;
+  max-height: 70%;
+  transform:rotate(-30deg);
+  -ms-transform:rotate(-30deg); /* IE 9 */
+  -webkit-transform:rotate(-30deg); /* Opera, Chrome, and Safari */
+}
+
+#fry {
+  margin-top: 70px;
+  margin-left: 70px;
+  max-width: 65%;
+  max-height: 65%;
+  transform:rotate(5deg);
+  -ms-transform:rotate(5deg); /* IE 9 */
+  -webkit-transform:rotate(5deg); /* Opera, Chrome, and Safari */
+}
+
+#professor {
+  margin-top: 45px;
+  margin-left: 75px;
+  max-width: 65%;
+  max-height: 65%;
+  transform:rotate(-35deg);
+  -ms-transform:rotate(-35deg); /* IE 9 */
+  -webkit-transform:rotate(-35deg); /* Opera, Chrome, and Safari */
+}
